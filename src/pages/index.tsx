@@ -7,6 +7,8 @@ import {
   SEO,
   LinkButton,
   CardContainerB,
+  Community,
+  MentorshipPlans,
 } from '@/components';
 import { PageProps } from '@/interfaces';
 import { getPreFetchProps } from '@/utils';
@@ -60,6 +62,7 @@ const Home = ({ seoMeta }: PageProps) => {
         }
         backgroundImageUrl={`${STATIC_FILE_PATH.svg}/hero-image.svg`}
       />
+
       <CardContainerB
         id={routes.internals.landing.products}
         heading='Our'
@@ -68,6 +71,8 @@ const Home = ({ seoMeta }: PageProps) => {
         borderColour={2}
       />
       <CanYouBeAProgrammer />
+      <Community />
+      <MentorshipPlans />
       <CardContainerA
         heading='What We Do'
         focusText='Differently'

@@ -12,15 +12,15 @@ const TOP_NAVIGATION: TopNavbarContainerProps = {
   products: [
     {
       id: v4(),
-      name: products.roadmaps.label,
-      description: products.roadmaps.description,
-      href: products.roadmaps.slug,
-    },
-    {
-      id: v4(),
       name: products.projects.label,
       description: products.projects.description,
       href: products.projects.slug,
+    },
+    {
+      id: v4(),
+      name: products.shiksha.label,
+      description: products.shiksha.description,
+      href: products.shiksha.slug,
     },
   ],
   links: [

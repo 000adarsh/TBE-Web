@@ -1,4 +1,11 @@
-import { ProjectDocumentModel, ProjectPickedPageProps } from '@/interfaces';
+import { envConfig } from '@/constant';
+import { getUserByEmailFromDB } from '@/database/query/user';
+import {
+  CourseModel,
+  ProjectDocumentModel,
+  ProjectPickedPageProps,
+} from '@/interfaces';
+import { NextRequest } from 'next/server';
 
 const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString('en-US', {
@@ -78,6 +85,60 @@ const getSelectedProjectChapterMeta = (
   return selectedChapter?.content ?? '';
 };
 
+const checkTheLoggedInUser = async (email: string): Promise<string | null> => {
+  try {
+    const { data, error } = await getUserByEmailFromDB(email);
+    if (error) return null;
+    return data._id;
+  } catch (error) {
+    return null;
+  }
+};
+
+const isAdmin = (adminSecret: string): boolean => {
+  return envConfig.ADMIN_SECRET == adminSecret;
+};
+
+const isUserAuthenticated = async (req: NextRequest) => {
+  try {
+    const response = await fetch(
+      `${envConfig.BASE_API_URL}/users/isauthenticated`,
+      {
+        credentials: 'include',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+          Cookie: req.headers.get('cookie') || '',
+        },
+      }
+    );
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+};
+
+const mapCourseResponseToCard = (coursesData: CourseModel[]) => {
+  return coursesData?.map(
+    ({ _id, thumbnailLink, title, description, liveOn, slug }) => ({
+      id: _id,
+      image: thumbnailLink,
+      imageAltText: title,
+      title,
+      content: description,
+      href: `/shiksha/${slug}/?courseId=${_id}`,
+      active:
+        new Date(liveOn).getMilliseconds() <=
+        new Date(Date.now()).getMilliseconds(),
+      ctaText:
+        new Date(liveOn).getMilliseconds() <=
+        new Date(Date.now()).getMilliseconds()
+          ? 'Start The Project'
+          : 'Coming Soon',
+    })
+  );
+};
+
 export {
   formatDate,
   formatTime,
@@ -87,4 +148,8 @@ export {
   removeLocalStorageItem,
   mapProjectResponseToCard,
   getSelectedProjectChapterMeta,
+  checkTheLoggedInUser,
+  isAdmin,
+  mapCourseResponseToCard,
+  isUserAuthenticated,
 };

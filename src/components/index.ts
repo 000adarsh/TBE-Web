@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+
 const Navbar = dynamic(() => import('@/components/layout/Navbar'));
 const LinkText = dynamic(() => import('@/components/common/Typography/Link'));
 const Text = dynamic(() => import('@/components/common/Typography/Text'));
@@ -7,9 +8,7 @@ const ImageContainer = dynamic(
 );
 const Logo = dynamic(() => import('@/components/common/Images/Logo'));
 const Button = dynamic(() => import('@/components/common/Buttons/Button'));
-const LogoutButton = dynamic(
-  () => import('@/components/common/Buttons/LogoutButton')
-);
+
 const LinkButton = dynamic(
   () => import('@/components/common/Buttons/LinkButton')
 );
@@ -98,6 +97,17 @@ const AccordionLinkItem = dynamic(
 );
 const MDXRenderer = dynamic(() => import('./common/MDXRenderer'));
 
+const UserAvatar = dynamic(() => import('./common/Images/UserAvatar'));
+const LoginWithGoogleButton = dynamic(
+  () => import('./common/Buttons/LoginWithGoogleButton')
+);
+const LogoutButton = dynamic(() => import('./common/Buttons/LogoutButton'));
+const Alert = dynamic(() => import('./containers/Alerts/Alert'));
+const MentorshipPlans = dynamic(
+  () => import('./containers/Page/Landing/MentorshipPlans')
+);
+const Community = dynamic(() => import('./containers/Page/Landing/Community'));
+
 export {
   Navbar,
   LinkText as Link,
@@ -143,4 +153,9 @@ export {
   Accordion,
   AccordionLinkItem,
   MDXRenderer,
+  LoginWithGoogleButton,
+  UserAvatar,
+  Alert,
+  Community,
+  MentorshipPlans,
 };

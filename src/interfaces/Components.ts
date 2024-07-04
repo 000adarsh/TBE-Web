@@ -136,9 +136,10 @@ export interface SEOProps {
 
 export interface PillProps {
   text: string;
-  variant: 'PRIMARY' | 'SECONDARY';
+  variant: 'PRIMARY' | 'SECONDARY' | 'GHOST';
   textStyleClasses?: string;
   containerClasses?: string;
+  widthFull?: boolean;
 }
 
 export interface IconPillProps {
@@ -266,6 +267,10 @@ export interface ProjectHeroContainerProps {
   difficultyLevel: string;
 }
 
+export interface CourseHeroContainerProps {
+  name: string;
+}
+
 export interface AccordionProps {
   title: string;
   children: React.ReactNode;
@@ -281,4 +286,13 @@ export interface AccordionLinkItemProps {
 
 export interface MDXContentProps {
   mdxSource: string;
+}
+
+export interface LoginWithGoogleBtnProps {
+  text?: string;
+}
+
+export interface AlertProps {
+  text: string;
+  className?: string;
 }

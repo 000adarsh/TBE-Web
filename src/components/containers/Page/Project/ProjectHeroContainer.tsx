@@ -4,7 +4,7 @@ import {
   PageHeroMetaContainer,
   Text,
 } from '@/components';
-import { routes } from '@/constant';
+import { projectGroupWhatsapp, routes } from '@/constant';
 import { ProjectHeroContainerProps } from '@/interfaces';
 
 const ProjectHeroContainer = ({
@@ -39,13 +39,27 @@ const ProjectHeroContainer = ({
             title={difficultyLevel}
           />
         </FlexContainer>
-        <LinkButton
-          href={routes.projectsExplore}
-          buttonProps={{
-            variant: 'GHOST',
-            text: 'Back to Projects',
-          }}
-        />
+        <FlexContainer
+          justifyCenter={false}
+          itemCenter={false}
+          className='justify-start items-start gap-2'
+        >
+          <LinkButton
+            href={projectGroupWhatsapp}
+            target='BLANK'
+            buttonProps={{
+              variant: 'OUTLINE',
+              text: 'Ask Question',
+            }}
+          />
+          <LinkButton
+            href={routes.projectsExplore}
+            buttonProps={{
+              variant: 'GHOST',
+              text: 'Back to Projects',
+            }}
+          />
+        </FlexContainer>
       </FlexContainer>
     </FlexContainer>
   );

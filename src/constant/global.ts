@@ -1,4 +1,5 @@
 import { ProductDataProps } from '@/interfaces';
+import { envConfig } from '.';
 
 // Paths
 const STATIC_FILE_PATH = {
@@ -29,7 +30,7 @@ const products: ProductDataProps = {
   shiksha: {
     label: 'Shiksha',
     slug: '/shiksha',
-    description: 'Learn Tech with Bite-sized Lessions',
+    description: 'Learn Tech with Free Bite-sized Courses',
   },
   workshops: {
     label: 'The Boring Workshops',
@@ -104,6 +105,30 @@ const apiStatusCodes = {
   INTERNAL_SERVER_ERROR: 500,
 };
 
+const mentorshipPlans: { title: string; description: string; link: string }[] =
+  [
+    {
+      title: 'Free Tech guidance',
+      description: 'Get mentored by working professionals',
+      link: '',
+    },
+    {
+      title: 'Free Resume Review',
+      description:
+        'Get a free resume review to enhance your job application and stand out to employers.',
+      link: '',
+    },
+    {
+      title: 'Cracking Remote Jobs',
+      description:
+        'know the secret behind cracking remote jobs by industry experts.',
+      link: '',
+    },
+  ];
+
+const IN_DEV_PAGES = ['/projects'];
+const projectGroupWhatsapp = 'https://chat.whatsapp.com/D1ko12SykD1LfvJwmNQ48A';
+
 export {
   imageMeta,
   products,
@@ -114,4 +139,7 @@ export {
   favicons,
   localStorageKeys,
   apiStatusCodes,
+  IN_DEV_PAGES,
+  projectGroupWhatsapp,
+  mentorshipPlans,
 };

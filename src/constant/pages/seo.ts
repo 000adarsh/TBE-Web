@@ -52,6 +52,13 @@ const getSEOMeta = (basePath: any): GetSEOMetaResponseType => {
       url: routes.allProjects.pharmashiftII,
       ...commonMeta,
     },
+    [`${routes.shiksha}`]: {
+      title: `${products.shiksha.label} | The Boring Education`,
+      siteName: products.shiksha.label,
+      description: products.shiksha.description,
+      url: products.shiksha.slug,
+      ...commonMeta,
+    },
     [`${routes.contactUs}`]: {
       title: 'Contact | The Boring Education',
       siteName: 'The Boring Education',
@@ -64,6 +71,20 @@ const getSEOMeta = (basePath: any): GetSEOMetaResponseType => {
       siteName: 'Lost in Boring Space',
       description: 'Tech Education for Everyone',
       url: routes[404],
+      ...commonMeta,
+    },
+    [`${routes.register}`]: {
+      title: 'Register | The Boring Education',
+      siteName: 'Register at The Boring Education',
+      description: 'Register at The Boring Education',
+      url: routes.register,
+      ...commonMeta,
+    },
+    [`${routes.shikshaExplore}`]: {
+      title: 'Explore Courses | The Boring Education',
+      siteName: 'Explore Courses at The Boring Education',
+      description: 'Explore Courses at The Boring Education',
+      url: routes.register,
       ...commonMeta,
     },
   };
