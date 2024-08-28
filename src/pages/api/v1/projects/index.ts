@@ -10,7 +10,7 @@ import {
 } from '@/database';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await connectDB(res);
+  await connectDB();
 
   switch (req.method) {
     case 'POST':
@@ -38,9 +38,9 @@ const handleAddProject = async (req: NextApiRequest, res: NextApiResponse) => {
     difficultyLevel,
   } = req.body as AddProjectRequestPayloadProps;
 
-  const { error: projectNotFound } = await getProjectBySlugFromDB(slug);
+  const { error: projectAlreadyExist } = await getProjectBySlugFromDB(slug);
 
-  if (!projectNotFound) {
+  if (!projectAlreadyExist) {
     return res.status(apiStatusCodes.BAD_REQUEST).json(
       sendAPIResponse({
         status: false,

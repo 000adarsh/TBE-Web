@@ -2,25 +2,26 @@ import { apiStatusCodes } from '@/constant';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendAPIResponse } from '@/utils';
 import { connectDB } from '@/middlewares';
-
-import { AddCourseDBRequestProps } from '@/interfaces';
+import { AddCourseRequestPayloadProps } from '@/interfaces';
 import {
   deleteACourseFromDBById,
   updateACourseInDB,
   getACourseFromDBById,
+  getACourseForUserFromDB,
 } from '@/database';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await connectDB(res);
+  await connectDB();
   const { method, query } = req;
-  const { courseId } = query as { courseId: string };
+  const { courseId, userId } = query as { courseId: string; userId: string };
+
   switch (method) {
     case 'GET':
-      return handleGetCourseById(req, res, courseId);
-    case 'DELETE':
-      return handleDeleteCourse(req, res, courseId);
+      return handleGetCourseById(req, res, userId, courseId);
     case 'PATCH':
       return handleUpdateCourse(req, res, courseId);
+    case 'DELETE':
+      return handleDeleteCourse(req, res, courseId);
     default:
       return res.status(apiStatusCodes.BAD_REQUEST).json(
         sendAPIResponse({
@@ -70,7 +71,20 @@ const handleUpdateCourse = async (
   res: NextApiResponse,
   courseId: string
 ) => {
-  const updatedData = req.body as Partial<AddCourseDBRequestProps>;
+  const updatedData = req.body as Partial<AddCourseRequestPayloadProps>;
+
+  const { error } = await getACourseFromDBById(courseId);
+
+  if (error) {
+    return res.status(apiStatusCodes.INTERNAL_SERVER_ERROR).json(
+      sendAPIResponse({
+        status: false,
+        message: 'Course not found',
+        error,
+      })
+    );
+  }
+
   try {
     const { data, error } = await updateACourseInDB({
       updatedData,
@@ -107,17 +121,17 @@ const handleUpdateCourse = async (
 const handleGetCourseById = async (
   req: NextApiRequest,
   res: NextApiResponse,
+  userId: string,
   courseId: string
 ) => {
   try {
-    const { data, error } = await getACourseFromDBById(courseId);
+    const { data, error } = await getACourseForUserFromDB(userId, courseId);
 
     if (error) {
-      return res.status(apiStatusCodes.INTERNAL_SERVER_ERROR).json(
+      return res.status(apiStatusCodes.NOT_FOUND).json(
         sendAPIResponse({
           status: false,
-          message: 'Failed while fetching a course',
-          error,
+          message: error,
         })
       );
     }
@@ -132,7 +146,7 @@ const handleGetCourseById = async (
     return res.status(apiStatusCodes.INTERNAL_SERVER_ERROR).json(
       sendAPIResponse({
         status: false,
-        message: 'Failed while fetching a course',
+        message: 'Failed to fetch courses with chapter status',
         error,
       })
     );

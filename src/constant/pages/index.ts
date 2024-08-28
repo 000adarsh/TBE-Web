@@ -43,6 +43,16 @@ const TOP_NAVIGATION: TopNavbarContainerProps = {
 
 const PRODUCTS: PrimaryCardWithCTAProps[] = [
   {
+    id: 'shiksha',
+    image: `${STATIC_FILE_PATH.svg}/shiksha.svg`,
+    imageAltText: products.shiksha.label,
+    title: products.shiksha.label,
+    content: products.shiksha.description,
+    href: products.shiksha.slug,
+    active: true,
+    ctaText: 'Explore Free Courses',
+  },
+  {
     id: 'projects',
     image: `${STATIC_FILE_PATH.svg}/projects.svg`,
     imageAltText: products.projects.label,
@@ -72,15 +82,6 @@ const PRODUCTS: PrimaryCardWithCTAProps[] = [
     href: products.roadmaps.slug,
     active: false,
     ctaText: 'Explore Roadmaps',
-  },
-  {
-    id: 'shiksha',
-    image: `${STATIC_FILE_PATH.svg}/shiksha.svg`,
-    imageAltText: products.shiksha.label,
-    title: products.shiksha.label,
-    content: products.shiksha.description,
-    href: products.shiksha.slug,
-    active: false,
   },
   {
     id: 'os',
@@ -115,6 +116,29 @@ const TBP_PROJECTS: PrimaryCardWithCTAProps[] = [
     href: routes.allProjects.pharmashiftII,
     active: false,
     ctaText: 'Start The Project',
+  },
+];
+
+const SHIKSHA_COURSES: PrimaryCardWithCTAProps[] = [
+  {
+    id: 'logic-building-for-everyone',
+    image: `${STATIC_FILE_PATH.svg}/tbp-pharmasift-1.svg`,
+    imageAltText: 'Learn Logic Building with Real-world Coding Challenges.',
+    title: 'Logic Building For Everyone',
+    content: 'Learn Logic Building with Real-world Coding Challenges.',
+    href: routes.allCourses.logicBuildingForEveryone,
+    active: true,
+    ctaText: 'Start The Course',
+  },
+  {
+    id: 'basics-of-programming-with-js',
+    image: `${STATIC_FILE_PATH.svg}/tbp-pharmasift-1.svg`,
+    imageAltText: 'Start Your Programming Journey with JavaScript.',
+    title: 'Basics of Programming with JS',
+    content: 'Start Your Programming Journey with JavaScript.',
+    href: routes.allCourses.basicsOfProgrammingWithJS,
+    active: false,
+    ctaText: 'Start The Course',
   },
 ];
 
@@ -272,4 +296,5 @@ export {
   TBP_FEATURES,
   MY_PREV_EXPERIENCE,
   TBP_PROJECTS,
+  SHIKSHA_COURSES,
 };

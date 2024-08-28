@@ -1,4 +1,4 @@
-import { ProjectChapter } from '.';
+import { CourseChapterModel, CourseModel, ProjectChapter } from '.';
 
 export type APIMethodTypes = 'GET' | 'POST' | 'PATCH';
 
@@ -102,58 +102,41 @@ export interface UpdateChapterDBRequestProps
   chapterId: string;
 }
 
-export interface AddCourseDBRequestProps {
+export interface AddCourseRequestPayloadProps {
   title: string;
   description: string;
-  thumbnailLink: string;
-  liveOn: Date;
+  coverImageURL: string;
+  liveOn: string;
   slug: string;
   meta?: string;
+  roadmap: RoadmapsType;
+  difficultyLevel: DifficultyType;
 }
 
 export interface UpdateCourseRequestPayloadProps {
   updatedData: {
     title?: string;
     description?: string;
-    thumbnailLink?: string;
+    coverImageURL?: string;
     meta?: string;
   };
   courseId: string;
 }
 
-export interface AddSectionToACourseDBRequestProps {
-  title: string;
-  courseId: string;
-}
-
-export interface UpdateCourseSectionInDBRequestProps {
-  sectionId: string;
-  updatedData: {
-    title?: string;
-  };
-}
-
-export interface AddCourseChapterInDBRequestProps {
-  title: string;
+export interface AddChapterToCourseRequestProps {
+  name: string;
   content: string;
-  sectionId: string;
 }
 
-export interface UpdateCourseChapterInDBRequestProps {
-  chapterId: string;
-  updatedData: Partial<AddCourseChapterInDBRequestProps>;
+export interface UpdateChapterInCourseRequestProps {
+  name?: string;
+  content?: string;
+  isOptional?: boolean;
 }
 
 export interface EnrollCourseInDBRequestProps {
   userId: string;
   courseId: string;
-}
-
-export interface MarkChapterAsCompletedDBRequestProps {
-  chapterId: string;
-  courseId: string;
-  sectionId: string;
-  userId: string;
 }
 
 export type SkillsType =
@@ -168,11 +151,35 @@ export type SkillsType =
   | 'TailwindCSS'
   | 'NextJS';
 
-export type RoadmapsType = 'Frontend' | 'Backend' | 'Fullstack';
+export type RoadmapsType = 'Frontend' | 'Backend' | 'Fullstack' | 'Tech';
 
 export type DifficultyType = 'Beginner' | 'Intermediate' | 'Advanced';
 
 export interface CreateUserRequestPayloadProps {
   name: string;
   email: string;
+  image?: string;
+  provider: string;
+  providerAccountId?: string;
+}
+
+export interface CourseEnrollmentRequestProps {
+  courseId: string;
+  userId: string;
+}
+
+export interface UpdateUserChapterInCourseRequestProps {
+  userId: string;
+  courseId: string;
+  chapterId: string;
+  isCompleted: boolean;
+}
+
+export interface ExtendedCourseChapterModel extends CourseChapterModel {
+  isCompleted: boolean; // Add `isCompleted` flag
+}
+
+export interface BaseShikshaCourseResponseProps extends Partial<CourseModel> {
+  isEnrolled?: boolean;
+  chapters?: ExtendedCourseChapterModel[];
 }

@@ -7,26 +7,29 @@ import {
   getUserByEmailFromDB,
   getUserByIdFromDB,
 } from '@/database/query/user';
+import { CreateUserRequestPayloadProps } from '@/interfaces';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await connectDB(res);
+  await connectDB();
 
-  const { method } = req;
+  const { method, query } = req;
+  const { email, userId } = query;
+
   switch (method) {
     case 'GET':
-      return handleGetUser(req, res);
+      return handleGetUser(req, res, email as string, userId as string);
     case 'POST':
       return handleCreateUser(req, res);
   }
 };
 
-const handleGetUser = async (req: NextApiRequest, res: NextApiResponse) => {
+const handleGetUser = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  email: string,
+  userId: string
+) => {
   try {
-    const { email, userId } = req.query as {
-      email: string;
-      userId: string;
-    };
-
     if (email) {
       const { data, error } = await getUserByEmailFromDB(email);
 
@@ -35,7 +38,7 @@ const handleGetUser = async (req: NextApiRequest, res: NextApiResponse) => {
           sendAPIResponse({
             status: false,
             error,
-            message: 'error while fetching user',
+            message: 'Error while fetching user',
           })
         );
       }
@@ -83,10 +86,8 @@ const handleGetUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const handleCreateUser = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const { email, name } = JSON.parse(req.body) as {
-      email: string;
-      name: string;
-    };
+    const { name, email, provider, image, providerAccountId } =
+      req.body as CreateUserRequestPayloadProps;
 
     if (!email || !name) {
       return res.status(apiStatusCodes.BAD_REQUEST).json(
@@ -101,7 +102,13 @@ const handleCreateUser = async (req: NextApiRequest, res: NextApiResponse) => {
     const { data } = await getUserByEmailFromDB(email);
 
     if (!data) {
-      const { data, error } = await createUserInDB({ name, email });
+      const { data, error } = await createUserInDB({
+        name,
+        email,
+        provider,
+        image,
+        providerAccountId,
+      });
 
       if (error) {
         return res.status(apiStatusCodes.INTERNAL_SERVER_ERROR).json(
@@ -117,11 +124,16 @@ const handleCreateUser = async (req: NextApiRequest, res: NextApiResponse) => {
         .status(apiStatusCodes.OKAY)
         .json(sendAPIResponse({ status: true, data }));
     } else {
-      return res
-        .status(apiStatusCodes.OKAY)
-        .json(sendAPIResponse({ status: true, data }));
+      return res.status(apiStatusCodes.OKAY).json(
+        sendAPIResponse({
+          status: true,
+          data,
+          message: 'User already exists',
+        })
+      );
     }
   } catch (error) {
+    console.log(error);
     return res.status(apiStatusCodes.INTERNAL_SERVER_ERROR).json(
       sendAPIResponse({
         status: false,
