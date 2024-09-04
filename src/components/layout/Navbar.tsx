@@ -1,7 +1,6 @@
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from 'react';
-import { LINKS, TOP_NAVIGATION, routes } from '@/constant';
 import {
   FlexContainer,
   Link,
@@ -16,11 +15,22 @@ import {
 import { FaInstagram, FaYoutube } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { LINKS, routes, TOP_NAVIGATION } from '@/constant';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const path = usePathname();
   const session = useSession();
+
+  const [openPopover, setOpenPopover] = useState<string | null>(null);
+
+  const handleSetOpen = (popoverName: string) => {
+    setOpenPopover(openPopover === popoverName ? null : popoverName);
+  };
+
+  const handleCloseMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header>
@@ -39,10 +49,20 @@ const Navbar = () => {
           </button>
         </div>
         <div className='hidden items-center lg:flex lg:gap-x-4'>
-          <PopoverContainer label='Products'>
+          <PopoverContainer
+            label='Products'
+            isOpen={openPopover === 'products'}
+            onToggle={() => handleSetOpen('products')}
+          >
             <NavbarDropdownContainer links={TOP_NAVIGATION.products} />
           </PopoverContainer>
-          <PopoverContainer label='Links' panelClasses='-left-6'>
+
+          <PopoverContainer
+            label='Links'
+            panelClasses='-left-6'
+            isOpen={openPopover === 'links'}
+            onToggle={() => handleSetOpen('links')}
+          >
             <NavbarDropdownContainer links={TOP_NAVIGATION.links} />
           </PopoverContainer>
           {!path?.startsWith(routes.register) && (
@@ -99,10 +119,12 @@ const Navbar = () => {
                 <MobileNavbarLinksContainer
                   title='Our Products'
                   links={TOP_NAVIGATION.products}
+                  onLinkClick={handleCloseMobileMenu}
                 />
                 <MobileNavbarLinksContainer
                   title='Links'
                   links={TOP_NAVIGATION.links}
+                  onLinkClick={handleCloseMobileMenu}
                 />
 
                 <FlexContainer

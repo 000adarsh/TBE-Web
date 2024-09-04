@@ -1,5 +1,4 @@
 import { envConfig } from '@/constant';
-import { getUserByEmailFromDB } from '@/database/query/user';
 import {
   BaseShikshaCourseResponseProps,
   ProjectDocumentModel,
@@ -98,16 +97,6 @@ const getSelectedCourseChapterMeta = (
   return selectedChapter?.content ?? '';
 };
 
-const checkTheLoggedInUser = async (email: string): Promise<string | null> => {
-  try {
-    const { data, error } = await getUserByEmailFromDB(email);
-    if (error) return null;
-    return data._id;
-  } catch (error) {
-    return null;
-  }
-};
-
 const isAdmin = (adminSecret: string): boolean => {
   return envConfig.ADMIN_SECRET == adminSecret;
 };
@@ -116,15 +105,12 @@ const isUserAuthenticated = async (req: any): Promise<User | null> => {
   const cookie = req.headers.cookie || req.headers.get('cookie');
 
   try {
-    const response = await fetch(
-      `${envConfig.BASE_AUTH_API_URL}/auth/session`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Cookie: cookie || '',
-        },
-      }
-    );
+    const response = await fetch(`${envConfig.BASE_AUTH_API_URL}/session`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: cookie || '',
+      },
+    });
 
     const session = await response.json();
     return session && session.user ? session.user : null;
@@ -183,7 +169,6 @@ export {
   removeLocalStorageItem,
   mapProjectResponseToCard,
   getSelectedProjectChapterMeta,
-  checkTheLoggedInUser,
   isAdmin,
   mapCourseResponseToCard,
   isUserAuthenticated,

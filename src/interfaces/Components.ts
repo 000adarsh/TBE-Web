@@ -14,6 +14,7 @@ export interface LinkProps {
   target?: 'BLANK';
   active?: boolean;
   scroll?: boolean;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
 export interface TextProps {
@@ -45,7 +46,7 @@ export interface LinkButtonProps extends LinkProps {
 }
 
 export interface ButtonProps {
-  variant: 'PRIMARY' | 'OUTLINE' | 'GHOST' | 'SUCCESS';
+  variant: 'PRIMARY' | 'OUTLINE' | 'GHOST' | 'SUCCESS' | 'SECONDARY';
   className?: string;
   text: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -162,6 +163,8 @@ export interface PopoverContainerProps {
   label: string;
   children: ReactNode;
   panelClasses?: string;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
 export interface ImageLinkProps {
@@ -189,6 +192,7 @@ export interface LoadingSpinnerProps {
   width?: number;
   marginClass?: string;
   className?: string;
+  borderColour?: string;
 }
 
 export interface NavbarDropdownContainerProps {
@@ -198,6 +202,7 @@ export interface NavbarDropdownContainerProps {
 export interface MobileNavbarLinksContainerProps {
   title: string;
   links: TopNavbarLinkProps[];
+  onLinkClick: () => void;
 }
 
 export interface PrimaryCardWithCTAProps {

@@ -27,6 +27,7 @@ const CoursePage = ({
     chapters.find((chapter) => chapter._id.toString() === currentChapterId)
       ?.isCompleted
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const currentChapter = chapters.find(
@@ -45,6 +46,7 @@ const CoursePage = ({
   };
 
   const toggleCompletion = async () => {
+    setIsLoading(true);
     try {
       const newCompletionStatus = !isChapterCompleted;
 
@@ -70,6 +72,8 @@ const CoursePage = ({
       setIsChapterCompleted(newCompletionStatus);
     } catch (error) {
       console.error('Error toggling chapter completion:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -86,9 +90,8 @@ const CoursePage = ({
       <Section className='md:p-2 p-2'>
         <FlexContainer className='w-full gap-4' itemCenter={false}>
           <FlexContainer
-            className='border md:w-3/12 w-full p-2 gap-1 rounded self-baseline'
+            className='border md:w-3/12 w-full p-2 gap-1 rounded self-baseline max-h-[80vh] overflow-y-auto sticky top-4 bg-white'
             itemCenter={false}
-            direction='col'
           >
             <Text level='h5' className='heading-5'>
               Chapters
@@ -112,6 +115,7 @@ const CoursePage = ({
               })}
             </FlexContainer>
           </FlexContainer>
+
           <FlexContainer
             className='border md:w-8/12 w-full p-2 rounded'
             justifyCenter={false}
@@ -121,13 +125,28 @@ const CoursePage = ({
             <MDXRenderer
               mdxSource={courseMeta}
               actions={[
-                <Button
-                  key='enroll'
-                  variant={isChapterCompleted ? 'SUCCESS' : 'PRIMARY'}
-                  text={isChapterCompleted ? 'Completed' : 'Mark As Completed'}
-                  className='w-fit'
-                  onClick={toggleCompletion}
-                />,
+                currentChapterId && (
+                  <Button
+                    key='enroll'
+                    variant={
+                      isChapterCompleted
+                        ? 'SUCCESS'
+                        : isLoading
+                        ? 'SECONDARY'
+                        : 'PRIMARY'
+                    }
+                    text={
+                      isLoading
+                        ? 'Marking...'
+                        : isChapterCompleted
+                        ? 'Completed'
+                        : 'Mark As Completed'
+                    }
+                    className='w-fit'
+                    onClick={toggleCompletion}
+                    isLoading={isLoading}
+                  />
+                ),
               ]}
             />
           </FlexContainer>
