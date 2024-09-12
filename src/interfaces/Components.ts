@@ -52,6 +52,8 @@ export interface ButtonProps {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   active?: boolean;
   isLoading?: boolean;
+  icon?: ReactNode;
+  iconPosition?: 'LEFT' | 'RIGHT';
 }
 
 export interface PageLayoutProps {

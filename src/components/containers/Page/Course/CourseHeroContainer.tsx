@@ -4,11 +4,13 @@ import {
   PageHeroMetaContainer,
   LoginWithGoogleButton,
   Button,
+  LinkButton,
 } from '@/components';
 import { routes } from '@/constant';
 import { useUser } from '@/hooks';
 import useApi from '@/hooks/useApi';
 import { CourseHeroContainerProps } from '@/interfaces';
+import { IoChevronBack } from 'react-icons/io5';
 
 const CourseHeroContainer = ({
   id,
@@ -66,17 +68,35 @@ const CourseHeroContainer = ({
   return (
     <FlexContainer>
       <FlexContainer className='border md:w-4/5 gap-4 w-full p-2 justify-between rounded'>
-        <FlexContainer
-          itemCenter={false}
-          direction='col'
-          className='items-start gap-1'
-        >
-          <Text level='h4' className='heading-4'>
-            Hello {user?.name ?? 'there'}!
-          </Text>
-          <Text level='p' className='paragraph text-greyDark'>
-            Let's Learn Something Today.
-          </Text>
+        <FlexContainer className='gap-4'>
+          <FlexContainer justifyCenter={false} itemCenter={false}>
+            <LinkButton
+              buttonProps={{
+                variant: 'OUTLINE',
+                text: '',
+                icon: (
+                  <IoChevronBack
+                    className='h-3 w-3'
+                    aria-hidden='true'
+                    color='grey'
+                  />
+                ),
+              }}
+              href={isAuth ? routes.shikshaEnrolled : routes.shikshaExplore}
+            />
+          </FlexContainer>
+          <FlexContainer
+            itemCenter={false}
+            direction='col'
+            className='items-start gap-1'
+          >
+            <Text level='h4' className='heading-4'>
+              Hello {user?.name ?? 'there'}!
+            </Text>
+            <Text level='p' className='paragraph text-greyDark'>
+              Let's Learn Something Today.
+            </Text>
+          </FlexContainer>
         </FlexContainer>
         <FlexContainer
           justifyCenter={false}
