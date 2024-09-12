@@ -96,9 +96,16 @@ const getSEOMeta = (basePath: any): GetSEOMetaResponseType => {
     },
     [`${routes.shikshaExplore}`]: {
       title: 'Explore Courses | The Boring Education',
-      siteName: 'Explore Courses at The Boring Education',
+      siteName: routes.shikshaExplore,
       description: 'Explore Courses at The Boring Education',
       url: routes.shikshaExplore,
+      ...commonMeta,
+    },
+    [`${routes.shikshaEnrolled}`]: {
+      title: `My Courses | The Boring Education`,
+      siteName: products.shiksha.label,
+      description: 'My Courses at The Boring Education',
+      url: routes.shikshaEnrolled,
       ...commonMeta,
     },
   };

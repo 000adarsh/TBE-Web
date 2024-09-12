@@ -12,6 +12,7 @@ const routes = {
   },
   shiksha: '/shiksha',
   shikshaExplore: '/shiksha/explore',
+  shikshaEnrolled: '/shiksha/enrolled',
   allCourses: {
     logicBuildingForEveryone: '/shiksha/logic-building-for-everyone',
     basicsOfProgrammingWithJS: '/shiksha/basics-of-programming-with-js',
@@ -40,6 +41,7 @@ const routes = {
       }
       return url;
     },
+    allCoursesForUser: (userId: string) => `/user/shiksha?userId=${userId}`,
   },
 };
 

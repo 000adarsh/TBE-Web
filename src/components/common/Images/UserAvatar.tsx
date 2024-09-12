@@ -1,14 +1,14 @@
 import React from 'react';
 import { Popover, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { useSession } from 'next-auth/react';
-import { Image, LogoutButton } from '@/components';
+import { Image, Link } from '@/components';
+import { useUser } from '@/hooks';
+import { USER_NAVBAR_LINKS } from '@/constant';
 
 const UserAvatar = () => {
-  const session = useSession();
+  const { user, isAuth, loading } = useUser();
 
-  if (session.status === 'loading') return null;
-  if (session.status !== 'authenticated') return null;
+  if (loading || !isAuth) return null;
 
   return (
     <div>
@@ -21,8 +21,8 @@ const UserAvatar = () => {
                 outline-none p-0 w-full`}
             >
               <Image
-                src={session.data.user?.image || ''}
-                alt={session.data.user?.name || ''}
+                src={user?.image || ''}
+                alt={user?.name || ''}
                 className='rounded-[50%] '
               />
             </Popover.Button>
@@ -39,7 +39,18 @@ const UserAvatar = () => {
                 className={`absolute z-10 mt-2 flex w-screen max-w-max -translate-x-1/2 `}
               >
                 <div className='overflow-hidden rounded-2 bg-white text-sm shadow-lg ring-1 ring-gray-900/5 min-w-[200px]'>
-                  <LogoutButton />
+                  {USER_NAVBAR_LINKS.map(({ title, onClick, link }, index) => {
+                    return (
+                      <Link
+                        key={index}
+                        href={link}
+                        className='block px-4 py-2 hover:bg-gray-100'
+                        onClick={onClick}
+                      >
+                        {title}
+                      </Link>
+                    );
+                  })}
                 </div>
               </Popover.Panel>
             </Transition>

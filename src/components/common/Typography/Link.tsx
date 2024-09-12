@@ -13,7 +13,7 @@ const LinkText = ({
   return (
     <Link
       className={`${className} link ${!active && 'disabled'}`}
-      href={href}
+      href={href || '#'}
       target={target}
       scroll={scroll}
       onClick={onClick}

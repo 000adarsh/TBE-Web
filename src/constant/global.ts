@@ -1,4 +1,6 @@
-import { ProductDataProps } from '@/interfaces';
+import { ProductDataProps, UserNavbarLinkProps } from '@/interfaces';
+import { routes } from './routes';
+import { signOut } from 'next-auth/react';
 
 // Paths
 const STATIC_FILE_PATH = {
@@ -134,6 +136,19 @@ const SCREEN_BREAKPOINTS = {
   LG: '(min-width: 1025px)',
 };
 
+const USER_NAVBAR_LINKS: UserNavbarLinkProps[] = [
+  {
+    title: 'My Courses',
+    link: routes.shikshaEnrolled,
+  },
+  {
+    title: 'Logout',
+    onClick: () => {
+      signOut();
+    },
+  },
+];
+
 export {
   imageMeta,
   products,
@@ -148,4 +163,5 @@ export {
   projectGroupWhatsapp,
   mentorshipPlans,
   SCREEN_BREAKPOINTS,
+  USER_NAVBAR_LINKS,
 };

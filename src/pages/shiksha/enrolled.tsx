@@ -1,47 +1,38 @@
 import React, { Fragment } from 'react';
-import { PageProps, PrimaryCardWithCTAProps } from '@/interfaces';
+import { MyCoursesPageProps, PrimaryCardWithCTAProps } from '@/interfaces';
 import {
   SEO,
   CardContainerB,
-  LoadingSpinner,
   FlexContainer,
   Text,
   LinkButton,
 } from '@/components';
-import { useAPIResponseMapper, useApi } from '@/hooks';
-import { getPreFetchProps, mapCourseResponseToCard } from '@/utils';
+import { useAPIResponseMapper } from '@/hooks';
+import { getMyCoursesPageProps, mapCourseResponseToCard } from '@/utils';
 import { routes } from '@/constant';
 
-const Home = ({ seoMeta }: PageProps) => {
-  const { response, loading } = useApi('shiksha', {
-    url: routes.api.shiksha,
-  });
-
-  console.log('HERE, ', response);
-
+const Home = ({ seoMeta, courses: response }: MyCoursesPageProps) => {
   const courses: PrimaryCardWithCTAProps[] = useAPIResponseMapper(
-    response?.data,
+    response,
     mapCourseResponseToCard
   );
 
-  if (loading) {
-    return <LoadingSpinner />;
-  }
+  console.log('HERE', courses);
 
   const noCourseFoundUI = (!courses || courses.length === 0) && (
     <FlexContainer
       justifyCenter={true}
-      className='w-screen h-screen item-center justify-center flex-col'
+      className='item-center justify-center flex-col'
     >
-      <Text level='h1' className='heading-4 mb-3'>
-        Oops! No Courses found.
+      <Text level='p' className='strong-text mb-3'>
+        Oops! No Enrolled Courses found.
       </Text>
       <LinkButton
         buttonProps={{
           variant: 'PRIMARY',
-          text: 'Go Back To Home',
+          text: 'Start Learning',
         }}
-        href={routes.shiksha}
+        href={routes.shikshaExplore}
       ></LinkButton>
     </FlexContainer>
   );
@@ -50,11 +41,11 @@ const Home = ({ seoMeta }: PageProps) => {
     <Fragment>
       <SEO seoMeta={seoMeta} />
       <CardContainerB
-        heading='Explore'
+        heading='My'
         focusText='Courses'
         cards={courses}
         borderColour={2}
-        subtext='Pick A Course and Start Learning'
+        subtext='Continue Learning from where you left'
         sectionClassName='px-2 py-4'
       />
       {noCourseFoundUI}
@@ -62,6 +53,6 @@ const Home = ({ seoMeta }: PageProps) => {
   );
 };
 
-export const getServerSideProps = getPreFetchProps;
+export const getServerSideProps = getMyCoursesPageProps;
 
 export default Home;

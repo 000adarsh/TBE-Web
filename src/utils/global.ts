@@ -160,10 +160,71 @@ const getCoursePageProps = async (context: any) => {
   };
 };
 
+const getMyCoursesPageProps = async (context: any) => {
+  const { req } = context;
+
+  const slug = routes.shikshaEnrolled;
+
+  const seoMeta = getSEOMeta(slug as PageSlug);
+
+  if (seoMeta) {
+    try {
+      const user = await isUserAuthenticated(req);
+
+      // If the project data is not found, return the message
+      if (!user) {
+        return {
+          redirect: {
+            destination: routes.shikshaExplore,
+          },
+          props: { slug },
+        };
+      }
+
+      const { status, data } = await fetchAPIData(
+        routes.api.allCoursesForUser(user.id)
+      );
+
+      if (!status) {
+        return {
+          redirect: {
+            destination: '/404',
+          },
+          props: { slug },
+        };
+      }
+
+      const courses: BaseShikshaCourseResponseProps[] = data;
+
+      return {
+        props: {
+          slug,
+          seoMeta,
+          courses,
+        },
+      };
+    } catch (error) {
+      console.error('Error fetching course data:', error);
+    }
+  }
+
+  return {
+    redirect: {
+      destination: '/404',
+    },
+    props: { slug },
+  };
+};
+
 const fetchAPIData = async (url: string) => {
   const response = await fetch(`${envConfig.BASE_API_URL}/${url}`);
 
   return await response.json();
 };
 
-export { getPreFetchProps, getProjectPageProps, getCoursePageProps };
+export {
+  getPreFetchProps,
+  getProjectPageProps,
+  getCoursePageProps,
+  getMyCoursesPageProps,
+};

@@ -10,7 +10,7 @@ export interface SectionProps {
 export interface LinkProps {
   children?: React.ReactNode;
   className?: string;
-  href: string;
+  href?: string;
   target?: 'BLANK';
   active?: boolean;
   scroll?: boolean;

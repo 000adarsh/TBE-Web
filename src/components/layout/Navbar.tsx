@@ -14,13 +14,13 @@ import {
 } from '..';
 import { FaInstagram, FaYoutube } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { LINKS, routes, TOP_NAVIGATION } from '@/constant';
+import { LINKS, TOP_NAVIGATION } from '@/constant';
+import { useUser } from '@/hooks';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const path = usePathname();
-  const session = useSession();
+  const { isAuth } = useUser();
 
   const [openPopover, setOpenPopover] = useState<string | null>(null);
 
@@ -65,10 +65,8 @@ const Navbar = () => {
           >
             <NavbarDropdownContainer links={TOP_NAVIGATION.links} />
           </PopoverContainer>
-          {!path?.startsWith(routes.register) && (
-            <LoginWithGoogleButton text='Login' />
-          )}
-          <UserAvatar />
+          {!isAuth && <LoginWithGoogleButton text='Login' />}
+          {isAuth && <UserAvatar />}
         </div>
       </nav>
       <Dialog
@@ -96,7 +94,7 @@ const Navbar = () => {
                 direction='col'
                 itemCenter={false}
               >
-                {session.status === 'unauthenticated' && (
+                {!isAuth && (
                   <FlexContainer
                     itemCenter={false}
                     justifyCenter={false}

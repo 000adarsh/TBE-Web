@@ -24,6 +24,9 @@ export interface ProjectPageProps extends PageProps {
   meta: string;
 }
 
+export interface MyCoursesPageProps extends PageProps {
+  courses: BaseShikshaCourseResponseProps[];
+}
 export interface CoursePageProps extends PageProps {
   course: BaseShikshaCourseResponseProps;
   meta: string;

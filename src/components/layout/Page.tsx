@@ -20,7 +20,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
   }, [router.events]);
 
   return (
-    <main className='bg-lightBG'>
+    <main className='bg-lightBG min-h-screen	'>
       <Navbar />
       {children}
       <Footer />
