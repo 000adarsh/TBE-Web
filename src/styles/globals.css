@@ -9,6 +9,10 @@
   }
 }
 
+body {
+  position: relative;
+}
+
 /* Custom Classes */
 @layer components {
   body {
