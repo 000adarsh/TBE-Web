@@ -12,13 +12,17 @@ const addACertificateToDB = async (
     await certificate.save();
     return { data: certificate };
   } catch (error) {
-    return { error: 'Failed while adding certificate' };
+    return { error };
   }
 };
 
-const checkCertificateExist = async (type: string, userId: string) => {
+const checkCertificateExistForAProgram = async (
+  type: string,
+  userId: string,
+  programId: string
+) => {
   try {
-    const certificate = await Certificate.findOne({ type, userId });
+    const certificate = await Certificate.findOne({ type, userId, programId });
 
     if (certificate) {
       return { data: certificate };
@@ -45,4 +49,8 @@ const getUserCertificates = async (userId: string) => {
   }
 };
 
-export { addACertificateToDB, checkCertificateExist, getUserCertificates };
+export {
+  addACertificateToDB,
+  checkCertificateExistForAProgram,
+  getUserCertificates,
+};

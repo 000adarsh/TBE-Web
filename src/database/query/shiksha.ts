@@ -321,6 +321,28 @@ const getACourseForUserFromDB = async (userId: string, courseId: string) => {
   }
 };
 
+const updateCertificateToUserShikshaCourseDoc = async (
+  userId: string,
+  courseId: string,
+  certificateId: string
+) => {
+  try {
+    const userCourse = await UserCourse.findOneAndUpdate(
+      { userId, courseId },
+      { isCompleted: true, certificateId },
+      { new: true }
+    );
+
+    if (!userCourse) {
+      return { error: 'User course not found' };
+    }
+
+    return { data: userCourse };
+  } catch (error) {
+    return { error: 'Failed to update certificate status in user course' };
+  }
+};
+
 export {
   addACourseToDB,
   updateACourseInDB,
@@ -336,4 +358,5 @@ export {
   updateUserCourseChapterInDB,
   getACourseForUserFromDB,
   getAllCourseFromDB,
+  updateCertificateToUserShikshaCourseDoc,
 };

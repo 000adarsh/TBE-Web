@@ -17,7 +17,15 @@ const CertificateSchema = new Schema<CertificateModel>(
       type: String,
       required: true,
     },
-    program: {
+    programName: {
+      type: String,
+      required: true,
+    },
+    programId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+    },
+    date: {
       type: String,
       required: true,
     },

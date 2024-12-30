@@ -2,7 +2,11 @@ import { apiStatusCodes } from '@/constant';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { sendAPIResponse } from '@/utils';
 import { connectDB } from '@/middlewares';
-import { addACertificateToDB, checkCertificateExist } from '@/database';
+import {
+  addACertificateToDB,
+  checkCertificateExistForAProgram,
+  updateCertificateToUserShikshaCourseDoc,
+} from '@/database';
 import {
   AddCertificateRequestPayloadProps,
   CertificateType,
@@ -11,15 +15,17 @@ import {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
   const { method, query } = req;
-  const { type, userId } = query as {
+  const { type, userId, programId } = query as {
     type: CertificateType;
     userId: string;
+    programId: string;
   };
+
   switch (method) {
     case 'POST':
       return handleAddACertificate(req, res);
     case 'GET':
-      return handleGetACertificate(req, res, type, userId);
+      return handleGetACertificate(req, res, type, userId, programId);
     default:
       return res.status(apiStatusCodes.BAD_REQUEST).json(
         sendAPIResponse({
@@ -37,10 +43,12 @@ const handleAddACertificate = async (
   try {
     const certificatePayload = req.body as AddCertificateRequestPayloadProps;
 
-    const { data: existingCertificate } = await checkCertificateExist(
-      certificatePayload.type,
-      certificatePayload.userId
-    );
+    const { data: existingCertificate } =
+      await checkCertificateExistForAProgram(
+        certificatePayload.type,
+        certificatePayload.userId,
+        certificatePayload.programId
+      );
 
     if (existingCertificate) {
       return res.status(apiStatusCodes.OKAY).json(
@@ -55,11 +63,20 @@ const handleAddACertificate = async (
     const { data: addedCertificate, error: certificateError } =
       await addACertificateToDB(certificatePayload);
 
+    if (certificatePayload.type === 'SHIKSHA') {
+      await updateCertificateToUserShikshaCourseDoc(
+        certificatePayload.userId,
+        certificatePayload.programId,
+        addedCertificate._id.toString()
+      );
+    }
+
     if (certificateError) {
       return res.status(apiStatusCodes.BAD_REQUEST).json(
         sendAPIResponse({
           status: false,
-          message: certificateError,
+          message: 'Failed while adding Certificate',
+          error: certificateError,
         })
       );
     }
@@ -86,29 +103,26 @@ const handleGetACertificate = async (
   req: NextApiRequest,
   res: NextApiResponse,
   type: CertificateType,
-  userId: string
+  userId: string,
+  programId: string
 ) => {
   try {
-    if (!userId) {
+    const missingFields = [];
+    if (!userId) missingFields.push('User ID');
+    if (!type) missingFields.push('Certificate type');
+    if (!programId) missingFields.push('Program ID');
+
+    if (missingFields.length > 0) {
       return res.status(apiStatusCodes.BAD_REQUEST).json(
         sendAPIResponse({
           status: false,
-          message: 'You are not logged in. Please login to view certificates',
-        })
-      );
-    } else if (!type) {
-      return res.status(apiStatusCodes.BAD_REQUEST).json(
-        sendAPIResponse({
-          status: false,
-          message: 'Certificate type is required',
+          message: `Missing required fields: ${missingFields.join(', ')}`,
         })
       );
     }
 
-    const { data: existingCertificate } = await checkCertificateExist(
-      type,
-      userId
-    );
+    const { data: existingCertificate } =
+      await checkCertificateExistForAProgram(type, userId, programId);
 
     if (existingCertificate) {
       return res.status(apiStatusCodes.OKAY).json(
@@ -118,6 +132,13 @@ const handleGetACertificate = async (
         })
       );
     }
+
+    return res.status(apiStatusCodes.NOT_FOUND).json(
+      sendAPIResponse({
+        status: false,
+        message: 'Certificate not found',
+      })
+    );
   } catch (error) {
     return res.status(apiStatusCodes.INTERNAL_SERVER_ERROR).json(
       sendAPIResponse({
