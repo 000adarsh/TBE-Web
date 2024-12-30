@@ -1,5 +1,4 @@
 import {
-  CertificateModel,
   CertificateType,
   CourseChapterModel,
   CourseModel,
