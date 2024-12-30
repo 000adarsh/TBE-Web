@@ -308,6 +308,8 @@ const getACourseForUserFromDB = async (userId: string, courseId: string) => {
     const updatedCourseResponse = {
       ...userCourse.course.toObject(),
       chapters: mappedChapters,
+      isCompleted: userCourse.isCompleted,
+      certificateId: userCourse.certificateId,
     };
 
     return {
