@@ -3,7 +3,7 @@ import { CertificateContentProps } from '@/interfaces';
 
 const CertificateContent = ({
   type,
-  username,
+  userName,
   courseName,
   date,
 }: CertificateContentProps) => {
@@ -64,7 +64,7 @@ const CertificateContent = ({
       }}
     >
       <div className='absolute' style={userNameStyles}>
-        {username}
+        {userName}
       </div>
       <div className='absolute' style={courseNameStyles}>
         {courseName}

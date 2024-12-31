@@ -382,14 +382,14 @@ export interface CertificateBannerProps {
 }
 
 export interface CertificateContentProps {
-  username: string;
+  userName: string;
   courseName: string;
   date: string;
   type: string;
 }
 
 export interface CertificateDataPoints {
-  username: string;
+  userName: string;
   courseName: string;
   date: string;
 }
@@ -413,4 +413,10 @@ export interface ModalProps {
   closeModal: () => void;
   title: string;
   children: ReactNode;
+}
+
+export interface CertificateModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  certificateData: CertificateDataPoints;
 }

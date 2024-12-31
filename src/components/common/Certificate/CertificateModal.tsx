@@ -1,18 +1,13 @@
 import { useRef } from 'react';
 import { toPng } from 'html-to-image';
-import { CertificateDataPoints } from '@/interfaces';
+import { CertificateModalProps } from '@/interfaces';
 import { CertificateContent, Modal } from '@/components';
 
 const CertificateModal = ({
   isOpen,
   closeModal,
-  certificateDataPoints,
-}: {
-  isOpen: boolean;
-  closeModal: () => void;
-  certificateDataPoints: CertificateDataPoints;
-}) => {
-  const { username, courseName, date } = certificateDataPoints;
+  certificateData: { userName, courseName, date },
+}: CertificateModalProps) => {
   const certificateRef = useRef<HTMLDivElement>(null);
 
   const handleDownload = async () => {
@@ -21,7 +16,7 @@ const CertificateModal = ({
         const dataUrl = await toPng(certificateRef.current, { quality: 1 });
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = `${username}-${courseName}.png`;
+        link.download = `${userName}-${courseName}.png`;
         link.click();
       } catch (error) {
         console.error('Error generating certificate image:', error);
@@ -35,7 +30,7 @@ const CertificateModal = ({
         <div ref={certificateRef} className='bg-gray-100 border'>
           <CertificateContent
             type='shiksha'
-            username={username}
+            userName={userName}
             courseName={courseName}
             date={date}
           />

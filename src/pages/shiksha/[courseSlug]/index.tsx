@@ -62,8 +62,8 @@ const CoursePage = ({
     setCourseMeta(chapterMeta);
   };
 
-  const certificateDataPoints = {
-    username: user?.name || 'Anonymous',
+  const certificateData = {
+    userName: user?.name || 'Anonymous',
     courseName: course.name || 'Course Name',
     date: new Date().toLocaleDateString('en-IN', {
       day: 'numeric',
@@ -119,7 +119,7 @@ const CoursePage = ({
               userName: user?.name,
               programId: course._id,
               programName: course.name,
-              date: certificateDataPoints.date,
+              date: certificateData.date,
             },
           });
 
@@ -264,7 +264,7 @@ const CoursePage = ({
       <CertificateModal
         isOpen={isModalOpen}
         closeModal={() => setIsModalOpen(false)}
-        certificateDataPoints={certificateDataPoints}
+        certificateData={certificateData}
       />
     </React.Fragment>
   );
