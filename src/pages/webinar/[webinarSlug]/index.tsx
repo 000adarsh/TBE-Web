@@ -15,16 +15,25 @@ import {
   AboutTBE,
   Button,
 } from '@/components';
-import { WebinarPageProps } from '@/interfaces';
-import { getWebinarPageProps } from '@/utils';
+import {
+  AddCertificateRequestPayloadProps,
+  WebinarPageProps,
+} from '@/interfaces';
+import {
+  formatDate,
+  generatePublicCertificateLink,
+  getWebinarPageProps,
+} from '@/utils';
 import { useApi, useUser, useCertificate } from '@/hooks';
 import { routes, TESTIMONIALS } from '@/constant';
 import { FiCalendar } from 'react-icons/fi';
 import { LuClock3 } from 'react-icons/lu';
 import { SiLinkedin } from 'react-icons/si';
+import { useRouter } from 'next/router';
 
 const WebinarPage = ({
   seoMeta,
+  webinarId,
   name,
   isFree,
   description,
@@ -37,8 +46,10 @@ const WebinarPage = ({
   isWebinarStarted,
   bannerImageUrl,
   registrationUrl,
+  recordedVideoUrl,
 }: WebinarPageProps) => {
   const { user, isAuth } = useUser();
+  const router = useRouter();
   const { certificateRef, handleDownload } = useCertificate();
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -46,6 +57,7 @@ const WebinarPage = ({
   const [registrationErrorMessage, setRegistrationErrorMessage] = useState<
     null | string
   >();
+  const [certificateId, setCertificateId] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -75,6 +87,30 @@ const WebinarPage = ({
 
       if (isRegistered) {
         setShowCertificate(true);
+
+        // Generate Certificate
+        const { status, data } = await makeRequest({
+          method: 'POST',
+          url: routes.api.certificate,
+          body: {
+            type: 'WEBINAR',
+            userId: user?.id,
+            userName: user?.name,
+            programId: webinarId,
+            programName: name,
+            date: formatDate({
+              dateFormat: {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              },
+            }).date,
+          } as AddCertificateRequestPayloadProps,
+        });
+
+        if (status) {
+          setCertificateId(data._id);
+        }
       } else {
         setShowCertificate(false);
         setRegistrationErrorMessage(message);
@@ -84,52 +120,86 @@ const WebinarPage = ({
     }
   };
 
-  let certificateSection;
-  let generateCertificateCard;
+  let certificateContainer, generateCertificateCard, recordingVideoContainer;
 
   if (!isWebinarStarted) {
-    certificateSection = <></>;
+    certificateContainer = <></>;
   }
 
   if (showCertificate) {
     generateCertificateCard = (
-      <>
-        <FlexContainer
-          fullWidth={true}
-          className={`max-w-lg bg-white rounded-1 border-2 border-gray-500 ${
-            isWebinarStarted ? '' : 'opacity-80'
-          }`}
+      <FlexContainer
+        fullWidth={true}
+        className={`max-w-lg gap-2 ${isWebinarStarted && 'opacity-80'}`}
+      >
+        <div
+          ref={certificateRef}
+          className='w-full rounded border-2 border-gray-500'
         >
-          <div ref={certificateRef} className='w-full'>
-            <CertificateContent
-              type='WEBINAR'
-              userName={userName}
-              courseName={name}
-              date={date + ' ' + time}
-            />
-          </div>
+          <CertificateContent
+            type='WEBINAR'
+            userName={userName}
+            courseName={name}
+            date={
+              formatDate({
+                dateFormat: {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                },
+              }).date
+            }
+          />
+        </div>
+        <FlexContainer fullWidth={true} className='gap-1 md:px-0 px-2'>
+          <LinkButton
+            target='_blank'
+            className='md:w-fit w-full'
+            href={generatePublicCertificateLink(router.basePath, certificateId)}
+            buttonProps={{
+              variant: 'PRIMARY',
+              text: 'Share Certificate',
+              className: 'md:w-fit w-full',
+            }}
+          />
+          <Button
+            variant='OUTLINE'
+            text='Download Certificate'
+            onClick={() => handleDownload('webinar')}
+            className='md:w-fit w-full'
+          />
         </FlexContainer>
-        <button
-          onClick={handleDownload}
-          disabled={!isWebinarStarted}
-          className={`rounded py-1 px-2 text-white ${
-            isWebinarStarted
-              ? 'bg-blue-500 hover:bg-blue-600'
-              : 'bg-gray-400 cursor-not-allowed'
-          }`}
-        >
-          Download Certificate
-        </button>
-      </>
+      </FlexContainer>
+    );
+  }
+
+  if (recordedVideoUrl) {
+    recordingVideoContainer = (
+      <Section className='gradient-6 py-4 m-auto mt-2 mb-4 md:max-w-screen-lg rounded-2'>
+        <FlexContainer direction='col' className='gap-2'>
+          <Text level='h4' className='heading-4' textCenter={true}>
+            Missed the webinar?
+          </Text>
+          <LinkButton
+            buttonProps={{
+              variant: 'PRIMARY',
+              text: 'Watch Recording',
+              className: 'w-full',
+            }}
+            href={recordedVideoUrl}
+            target='_blank'
+          />
+        </FlexContainer>
+      </Section>
     );
   }
 
   if (!isAuth && isWebinarStarted) {
-    certificateSection = <WebinarHeroContainer />;
+    certificateContainer = <WebinarHeroContainer />;
   } else if (!isWebinarStarted) {
-    certificateSection = <></>;
+    certificateContainer = <></>;
   } else {
-    certificateSection = (
+    certificateContainer = (
       <FlexContainer
         direction='col'
         className='w-full max-w-screen-lg gradient-8 py-4 m-auto my-4 rounded-2 gap-6'
@@ -138,10 +208,18 @@ const WebinarPage = ({
           Generate Your Certificate
         </Text>
 
-        <FlexContainer fullWidth={true} direction='col' className='gap-4'>
-          <FlexContainer className='gap-4' itemCenter={false}>
-            <FlexContainer className='gap-4' itemCenter={false}>
-              <FlexContainer direction='col' className='' itemCenter={false}>
+        <FlexContainer
+          fullWidth={true}
+          direction='col'
+          className='gap-4 md:px-0 px-4'
+        >
+          <FlexContainer className='gap-4'>
+            <FlexContainer className='gap-4 items-start'>
+              <FlexContainer
+                direction='col'
+                className='md:w-fit w-full'
+                itemCenter={false}
+              >
                 <Text level='label' className='pre-title'>
                   Your Name
                 </Text>
@@ -149,7 +227,11 @@ const WebinarPage = ({
                   {userName}
                 </Text>
               </FlexContainer>
-              <FlexContainer direction='col' className='' itemCenter={false}>
+              <FlexContainer
+                direction='col'
+                className='md:w-fit w-full'
+                itemCenter={false}
+              >
                 <Text level='label' className='pre-title'>
                   Your Email
                 </Text>
@@ -166,7 +248,9 @@ const WebinarPage = ({
           </FlexContainer>
 
           {registrationErrorMessage && (
-            <Text level='p'>{registrationErrorMessage}</Text>
+            <Text level='p' textCenter={true}>
+              {registrationErrorMessage}
+            </Text>
           )}
         </FlexContainer>
 
@@ -253,20 +337,14 @@ const WebinarPage = ({
                 <Text level='h4' className='heading-4'>
                   {host.name}
                 </Text>
-                <Text level='p' className='paragraph'>
+                <Text level='p' className='paragraph text-center'>
                   {host.role}
                 </Text>
               </FlexContainer>
             </FlexContainer>
 
-            <FlexContainer
-              itemCenter={true}
-              className='h-6 justify-start gap-1 md:gap-4'
-            >
-              <FlexContainer
-                itemCenter={true}
-                className='justify-start gap-2.5'
-              >
+            <FlexContainer className='h-6 items-start gap-2 md:gap-4'>
+              <FlexContainer className='justify-start gap-2.5'>
                 <FiCalendar className='w-4 h-4' />
                 <Text level='p' className='strong-text'>
                   {date}
@@ -286,7 +364,8 @@ const WebinarPage = ({
         </FlexContainer>
 
         {registerationContainer}
-        {certificateSection}
+        {certificateContainer}
+        {recordingVideoContainer}
 
         <FlexContainer direction='col' className='m-auto'>
           <FlexContainer

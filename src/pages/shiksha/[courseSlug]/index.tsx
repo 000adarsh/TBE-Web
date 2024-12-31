@@ -12,9 +12,12 @@ import {
   SEO,
   Text,
   CertificateBanner,
-  CertificateModal,
+  ShikshaCertificateModal,
 } from '@/components';
-import { CoursePageProps } from '@/interfaces';
+import {
+  AddCertificateRequestPayloadProps,
+  CoursePageProps,
+} from '@/interfaces';
 import { formatDate, getCoursePageProps } from '@/utils';
 import { useApi, useMediaQuery, useUser } from '@/hooks';
 import { routes, SCREEN_BREAKPOINTS } from '@/constant';
@@ -116,7 +119,7 @@ const CoursePage = ({
                   year: 'numeric',
                 },
               }).date,
-            },
+            } as AddCertificateRequestPayloadProps,
           });
 
           if (status) {
@@ -257,7 +260,7 @@ const CoursePage = ({
           </FlexContainer>
         </FlexContainer>
       </Section>
-      <CertificateModal
+      <ShikshaCertificateModal
         isOpen={isCertificateModalOpen}
         closeModal={() => setIsCertificateModalOpen(false)}
         courseName={course.name ?? ''}

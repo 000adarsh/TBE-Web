@@ -276,6 +276,7 @@ const getWebinarPageProps = async (context: any) => {
     learnings,
     registrationUrl,
     host,
+    recordedVideoUrl,
   } = webinar;
 
   const { date, time } = formatDate({
@@ -310,6 +311,7 @@ const getWebinarPageProps = async (context: any) => {
       time,
       isWebinarStarted,
       registrationUrl,
+      recordedVideoUrl,
       bannerImageUrl:
         'https://wallpapers.com/images/hd/coding-background-9izlympnd0ovmpli.jpg',
     },

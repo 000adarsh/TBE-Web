@@ -22,7 +22,7 @@ const getAllWebinarsFromDB = async () => {
     const webinars = await Webinar.find();
     return { data: webinars };
   } catch (error) {
-    return { data: null, error };
+    return { error };
   }
 };
 
@@ -40,7 +40,7 @@ const updateWebinarInDB = async (
     );
 
     if (!updatedWebinarData) {
-      return { data: null, error: 'Webinar not found' };
+      return { error: 'Webinar not found' };
     }
 
     // Push users into enrolledUsersList without duplicates
@@ -60,7 +60,7 @@ const updateWebinarInDB = async (
 
     return { data: finalUpdatedWebinar };
   } catch (error) {
-    return { data: null, error };
+    return { error };
   }
 };
 
@@ -81,7 +81,7 @@ const checkUserRegistrationInWebinarDB = async (
 
     return { data: isRegistered };
   } catch (error) {
-    return { data: null, error };
+    return { error };
   }
 };
 
@@ -93,7 +93,6 @@ const getWebinarDetailsFromDB = async (slug: string) => {
 
     if (!webinarDetails) {
       return {
-        data: null,
         error: 'Webinar not found',
       };
     }
@@ -103,7 +102,6 @@ const getWebinarDetailsFromDB = async (slug: string) => {
     };
   } catch (error) {
     return {
-      data: null,
       error: 'Failed to fetch webinar details from the database',
     };
   }
@@ -113,12 +111,12 @@ const getWebinarBySlugFromDB = async (slug: string) => {
   try {
     const webinar = await Webinar.findOne({ slug });
     if (!webinar) {
-      return { data: null, error: 'Webinar not found' };
+      return { error: 'Webinar not found' };
     }
 
     return { data: webinar };
   } catch (error) {
-    return { data: null, error };
+    return { error };
   }
 };
 
@@ -126,7 +124,7 @@ const deleteAWebinarFromDB = async (slug: string) => {
   try {
     const webinar = await Webinar.findOne({}).where('slug').equals(slug);
     if (!webinar) {
-      return { data: null, error: 'Webinar not found' };
+      return { error: 'Webinar not found' };
     }
 
     await webinar.deleteOne();

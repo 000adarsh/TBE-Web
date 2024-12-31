@@ -7,14 +7,14 @@ export const useCertificate = () => {
 
   const certificateRef = useRef<HTMLDivElement>(null);
 
-  const handleDownload = async () => {
+  const handleDownload = async (label: string) => {
     if (!user) return;
     if (certificateRef.current) {
       try {
         const dataUrl = await toPng(certificateRef.current, { quality: 1 });
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = `${user.name}-webinar-certificate.png`;
+        link.download = `${user.name}-${label}-certificate.png`;
         link.click();
       } catch (error) {
         console.error('Error generating certificate image:', error);

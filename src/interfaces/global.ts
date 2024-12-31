@@ -63,6 +63,7 @@ export interface WebinarPageProps extends WebinarModel {
   date: string;
   time: string;
   isWebinarStarted: boolean;
+  webinarId: string;
 }
 
 export type CertificateType = 'WEBINAR' | 'SHIKSHA';

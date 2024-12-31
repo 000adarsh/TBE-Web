@@ -16,8 +16,8 @@ const CertificateContent = ({
     top: '51.5%',
     left: '50%',
     transform:
-      type === 'SHIKSHA' ? 'translate(-50%, -110%)' : 'translate(-50%,-125%)',
-    fontSize: '1.2em',
+      type === 'SHIKSHA' ? 'translate(-50%, -110%)' : 'translate(-50%,-140%)',
+    fontSize: '1.2rem',
     fontWeight: 'bold',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -30,8 +30,8 @@ const CertificateContent = ({
     top: '59%',
     left: '50%',
     transform:
-      type === 'SHIKSHA' ? 'translate(-50%,-110%)' : 'translate(-50%,-150%)',
-    fontSize: '0.7em',
+      type === 'SHIKSHA' ? 'translate(-50%,-110%)' : 'translate(-50%,-130%)',
+    fontSize: '0.7rem',
     fontWeight: 500,
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
@@ -44,7 +44,7 @@ const CertificateContent = ({
     left: '50%',
     transform:
       type === 'SHIKSHA' ? 'translate(-50%,-110%)' : 'translate(-50%,-150%)',
-    fontSize: '0.7em',
+    fontSize: '0.6rem',
     fontWeight: 500,
     opacity: '0.85',
   };

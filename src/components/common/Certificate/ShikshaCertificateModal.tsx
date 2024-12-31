@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-import { toPng } from 'html-to-image';
 import { CertificateModalProps } from '@/interfaces';
 import {
   Button,
@@ -8,34 +6,19 @@ import {
   LinkButton,
   Modal,
 } from '@/components';
-import { useUser } from '@/hooks';
+import { useCertificate, useUser } from '@/hooks';
 import { useRouter } from 'next/router';
-
 import { formatDate, generatePublicCertificateLink } from '@/utils';
 
-const CertificateModal = ({
+const ShikshaCertificateModal = ({
   isOpen,
   closeModal,
   courseName,
   certificateId,
 }: CertificateModalProps) => {
   const { user } = useUser();
-  const certificateRef = useRef<HTMLDivElement>(null);
+  const { certificateRef, handleDownload } = useCertificate();
   const router = useRouter();
-
-  const handleDownload = async () => {
-    if (certificateRef.current) {
-      try {
-        const dataUrl = await toPng(certificateRef.current, { quality: 1 });
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = `${user?.name}-${courseName}.png`;
-        link.click();
-      } catch (error) {
-        console.error('Error generating certificate image:', error);
-      }
-    }
-  };
 
   return (
     <Modal isOpen={isOpen} closeModal={closeModal} title='Your Certificate'>
@@ -52,13 +35,17 @@ const CertificateModal = ({
           <LinkButton
             target='_blank'
             href={generatePublicCertificateLink(router.basePath, certificateId)}
-            buttonProps={{ variant: 'PRIMARY', text: 'View' }}
+            buttonProps={{ variant: 'PRIMARY', text: 'Share' }}
           />
-          <Button variant='OUTLINE' text='Download' onClick={handleDownload} />
+          <Button
+            variant='OUTLINE'
+            text='Download'
+            onClick={() => handleDownload(courseName)}
+          />
         </FlexContainer>
       </section>
     </Modal>
   );
 };
 
-export default CertificateModal;
+export default ShikshaCertificateModal;

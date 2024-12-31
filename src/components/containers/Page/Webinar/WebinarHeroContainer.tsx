@@ -8,7 +8,7 @@ const WebinarHeroContainer = () => {
           <Text level='h4' className='heading-4'>
             Hello there!
           </Text>
-          <Text level='p' className='paragraph text-greyDark'>
+          <Text level='p' className='paragraph text-greyDark' textCenter={true}>
             Please Login to generate your Certificate
           </Text>
         </FlexContainer>
