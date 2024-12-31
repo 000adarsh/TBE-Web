@@ -68,7 +68,7 @@ export interface WebinarPageProps extends WebinarModel {
 export type CertificateType = 'WEBINAR' | 'SHIKSHA';
 
 export type FormatDateType = {
-  dateAndTime: string;
+  dateAndTime?: string;
   dateFormat?: Intl.DateTimeFormatOptions;
   timeFormat?: Intl.DateTimeFormatOptions;
 };

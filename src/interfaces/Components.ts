@@ -1,5 +1,6 @@
 import { HTMLInputTypeAttribute, MouseEventHandler, ReactNode } from 'react';
 import {
+  CertificateType,
   GetSEOMetaResponseType,
   QuestionFrequencyType,
   TopNavbarLinkProps,
@@ -385,13 +386,7 @@ export interface CertificateContentProps {
   userName: string;
   courseName: string;
   date: string;
-  type: string;
-}
-
-export interface CertificateDataPoints {
-  userName: string;
-  courseName: string;
-  date: string;
+  type: CertificateType;
 }
 
 export interface BackgroundImageProps {
@@ -418,5 +413,6 @@ export interface ModalProps {
 export interface CertificateModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  certificateData: CertificateDataPoints;
+  courseName: string;
+  certificateId: string;
 }

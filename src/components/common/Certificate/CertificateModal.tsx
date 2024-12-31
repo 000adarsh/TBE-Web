@@ -1,14 +1,27 @@
 import { useRef } from 'react';
 import { toPng } from 'html-to-image';
 import { CertificateModalProps } from '@/interfaces';
-import { CertificateContent, Modal } from '@/components';
+import {
+  Button,
+  CertificateContent,
+  FlexContainer,
+  LinkButton,
+  Modal,
+} from '@/components';
+import { useUser } from '@/hooks';
+import { useRouter } from 'next/router';
+
+import { formatDate, generatePublicCertificateLink } from '@/utils';
 
 const CertificateModal = ({
   isOpen,
   closeModal,
-  certificateData: { userName, courseName, date },
+  courseName,
+  certificateId,
 }: CertificateModalProps) => {
+  const { user } = useUser();
   const certificateRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const handleDownload = async () => {
     if (certificateRef.current) {
@@ -16,7 +29,7 @@ const CertificateModal = ({
         const dataUrl = await toPng(certificateRef.current, { quality: 1 });
         const link = document.createElement('a');
         link.href = dataUrl;
-        link.download = `${userName}-${courseName}.png`;
+        link.download = `${user?.name}-${courseName}.png`;
         link.click();
       } catch (error) {
         console.error('Error generating certificate image:', error);
@@ -29,20 +42,20 @@ const CertificateModal = ({
       <section>
         <div ref={certificateRef} className='bg-gray-100 border'>
           <CertificateContent
-            type='shiksha'
-            userName={userName}
+            type='SHIKSHA'
+            userName={user?.name ?? ''}
             courseName={courseName}
-            date={date}
+            date={formatDate({}).date}
           />
         </div>
-        <div className='mt-2 text-center'>
-          <button
-            onClick={handleDownload}
-            className='rounded bg-blue-500 py-1 px-2 text-white hover:bg-blue-600 focus:outline-none'
-          >
-            Download Certificate
-          </button>
-        </div>
+        <FlexContainer className='py-2 gap-1'>
+          <LinkButton
+            target='_blank'
+            href={generatePublicCertificateLink(router.basePath, certificateId)}
+            buttonProps={{ variant: 'PRIMARY', text: 'View' }}
+          />
+          <Button variant='OUTLINE' text='Download' onClick={handleDownload} />
+        </FlexContainer>
       </section>
     </Modal>
   );

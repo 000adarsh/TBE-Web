@@ -8,15 +8,15 @@ const CertificateContent = ({
   date,
 }: CertificateContentProps) => {
   const backgroundImagePaths: Record<string, string> = {
-    webinar: 'url(/images/webinar_certificate.png)',
-    shiksha: 'url(/images/shiksha_certificate.png)',
+    WEBINAR: 'url(/images/webinar_certificate.png)',
+    SHIKSHA: 'url(/images/shiksha_certificate.png)',
   };
 
   const userNameStyles: React.CSSProperties = {
     top: '51.5%',
     left: '50%',
     transform:
-      type === 'shiksha' ? 'translate(-50%, -110%)' : 'translate(-50%,-125%)',
+      type === 'SHIKSHA' ? 'translate(-50%, -110%)' : 'translate(-50%,-125%)',
     fontSize: '1.2em',
     fontWeight: 'bold',
     whiteSpace: 'nowrap',
@@ -30,7 +30,7 @@ const CertificateContent = ({
     top: '59%',
     left: '50%',
     transform:
-      type === 'shiksha' ? 'translate(-50%,-110%)' : 'translate(-50%,-150%)',
+      type === 'SHIKSHA' ? 'translate(-50%,-110%)' : 'translate(-50%,-150%)',
     fontSize: '0.7em',
     fontWeight: 500,
     whiteSpace: 'nowrap',
@@ -43,7 +43,7 @@ const CertificateContent = ({
     top: '67%',
     left: '50%',
     transform:
-      type === 'shiksha' ? 'translate(-50%,-110%)' : 'translate(-50%,-150%)',
+      type === 'SHIKSHA' ? 'translate(-50%,-110%)' : 'translate(-50%,-150%)',
     fontSize: '0.7em',
     fontWeight: 500,
     opacity: '0.85',

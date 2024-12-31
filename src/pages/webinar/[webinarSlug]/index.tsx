@@ -101,7 +101,7 @@ const WebinarPage = ({
         >
           <div ref={certificateRef} className='w-full'>
             <CertificateContent
-              type='webinar'
+              type='WEBINAR'
               userName={userName}
               courseName={name}
               date={date + ' ' + time}

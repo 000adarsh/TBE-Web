@@ -15,7 +15,7 @@ import {
   CertificateModal,
 } from '@/components';
 import { CoursePageProps } from '@/interfaces';
-import { getCoursePageProps } from '@/utils';
+import { formatDate, getCoursePageProps } from '@/utils';
 import { useApi, useMediaQuery, useUser } from '@/hooks';
 import { routes, SCREEN_BREAKPOINTS } from '@/constant';
 
@@ -37,7 +37,7 @@ const CoursePage = ({
     course.isCompleted ?? false
   );
   const [certificateId, setCertificateId] = useState(course.certificateId);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery(SCREEN_BREAKPOINTS.SM);
 
   // Calculate the total chapters and completed chapters
@@ -60,16 +60,6 @@ const CoursePage = ({
 
   const handleChapterClick = (chapterMeta: string) => {
     setCourseMeta(chapterMeta);
-  };
-
-  const certificateData = {
-    userName: user?.name || 'Anonymous',
-    courseName: course.name || 'Course Name',
-    date: new Date().toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    }),
   };
 
   const toggleCompletion = async () => {
@@ -119,7 +109,13 @@ const CoursePage = ({
               userName: user?.name,
               programId: course._id,
               programName: course.name,
-              date: certificateData.date,
+              date: formatDate({
+                dateFormat: {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                },
+              }).date,
             },
           });
 
@@ -217,7 +213,7 @@ const CoursePage = ({
                 isLocked={!isCourseCompleted}
                 onClick={() => {
                   if (isCourseCompleted) {
-                    setIsModalOpen(true);
+                    setIsCertificateModalOpen(true);
                   }
                 }}
               />
@@ -262,9 +258,10 @@ const CoursePage = ({
         </FlexContainer>
       </Section>
       <CertificateModal
-        isOpen={isModalOpen}
-        closeModal={() => setIsModalOpen(false)}
-        certificateData={certificateData}
+        isOpen={isCertificateModalOpen}
+        closeModal={() => setIsCertificateModalOpen(false)}
+        courseName={course.name ?? ''}
+        certificateId={certificateId ?? ''}
       />
     </React.Fragment>
   );

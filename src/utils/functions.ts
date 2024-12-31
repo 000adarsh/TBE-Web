@@ -9,7 +9,7 @@ import {
 } from '@/interfaces';
 
 const formatDate = ({
-  dateAndTime,
+  dateAndTime = new Date().toDateString(),
   dateFormat = {
     day: 'numeric',
     month: 'short',
@@ -245,6 +245,9 @@ const mapInterviewSheetResponseToCard = (
   );
 };
 
+const generatePublicCertificateLink = (host: string, certificateId: string) =>
+  `${host}/certificate/${certificateId}`;
+
 export {
   formatDate,
   formatTime,
@@ -261,4 +264,5 @@ export {
   getSelectedSheetQuestionMeta,
   mapInterviewSheetResponseToCard,
   isProgramActive,
+  generatePublicCertificateLink,
 };
