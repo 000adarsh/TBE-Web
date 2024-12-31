@@ -407,3 +407,10 @@ export interface BannerProps {
   imageSrc: string;
   variant?: 'VARIANT_A' | 'VARIANT_B';
 }
+
+export interface ModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  title: string;
+  children: ReactNode;
+}

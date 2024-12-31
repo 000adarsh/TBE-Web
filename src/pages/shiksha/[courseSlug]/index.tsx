@@ -39,7 +39,6 @@ const CoursePage = ({
   const [certificateId, setCertificateId] = useState(course.certificateId);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery(SCREEN_BREAKPOINTS.SM);
-  // console.log('HERE', isCourseCompleted);
 
   // Calculate the total chapters and completed chapters
   const totalChapters = chapters.length;
@@ -54,7 +53,7 @@ const CoursePage = ({
     setIsChapterCompleted(currentChapter?.isCompleted);
   }, [currentChapterId, chapters]);
 
-  const { makeRequest, response } = useApi(`shiksha/${course}`);
+  const { makeRequest } = useApi(`shiksha/${course}`);
   const { user } = useUser();
 
   if (!course) return null;

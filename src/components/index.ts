@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
+const Modal = dynamic(() => import('@/components/common/Modal'));
 const Banner = dynamic(() => import('@/components/common/Banner'));
 const AboutTBE = dynamic(
   () => import('@/components/containers/Cards/AboutTBE')
 );
-
 const ProgressBar = dynamic(() => import('@/components/common/ProgressBar'));
 const CertificateBanner = dynamic(
   () => import('@/components/common/Certificate/CertificateBanner')
@@ -205,4 +205,5 @@ export {
   BackgroundImage,
   AboutTBE,
   Banner,
+  Modal,
 };
