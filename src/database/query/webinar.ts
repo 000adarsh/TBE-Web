@@ -2,7 +2,6 @@ import { Webinar } from '@/database';
 import {
   AddWebinarRequestPayloadProps,
   UpdateEnrolledUsersRequestPayloadProps,
-  WebinarEnrolledUsersProps,
 } from '@/interfaces';
 
 // Add A Webinar
