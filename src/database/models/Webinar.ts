@@ -78,11 +78,15 @@ const WebinarSchema = new Schema<WebinarModel>(
   },
   {
     timestamps: true,
-    _id: true,
     toObject: {
       virtuals: true,
       transform: (doc, ret) => {
         delete ret.id;
+        if (ret.enrolledUsersList) {
+          ret.enrolledUsersList.forEach((user: any) => {
+            delete user._id;
+          });
+        }
         return ret;
       },
     },
@@ -90,6 +94,11 @@ const WebinarSchema = new Schema<WebinarModel>(
       virtuals: true,
       transform: (doc, ret) => {
         delete ret.id;
+        if (ret.enrolledUsersList) {
+          ret.enrolledUsersList.forEach((user: any) => {
+            delete user._id;
+          });
+        }
         return ret;
       },
     },

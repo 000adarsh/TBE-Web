@@ -11,17 +11,16 @@ const addAWebinarToDB = async (
   try {
     const newWebinar = new Webinar(webinarPayload);
     const savedWebinar = await newWebinar.save();
-
-    return { data: savedWebinar, error: null };
+    return { data: savedWebinar };
   } catch (error) {
-    return { data: null, error };
+    return { error };
   }
 };
 
 const getAllWebinarsFromDB = async () => {
   try {
     const webinars = await Webinar.find();
-    return { data: webinars, error: null };
+    return { data: webinars };
   } catch (error) {
     return { data: null, error };
   }
@@ -42,7 +41,7 @@ const updateEnrolledUsersInWebinarDB = async (
       return { data: null, error: 'Webinar not found' };
     }
 
-    return { data: updatedWebinar, error: null };
+    return { data: updatedWebinar };
   } catch (error) {
     return { data: null, error };
   }
@@ -63,7 +62,7 @@ const checkUserRegistrationInWebinarDB = async (
       (user: { email: string }) => user.email === email
     );
 
-    return { data: isRegistered, error: null };
+    return { data: isRegistered };
   } catch (error) {
     return { data: null, error };
   }
@@ -84,7 +83,6 @@ const getWebinarDetailsFromDB = async (slug: string) => {
 
     return {
       data: webinarDetails,
-      error: null,
     };
   } catch (error) {
     return {
@@ -101,7 +99,7 @@ const getWebinarBySlugFromDB = async (slug: string) => {
       return { data: null, error: 'Webinar not found' };
     }
 
-    return { data: webinar, error: null };
+    return { data: webinar };
   } catch (error) {
     return { data: null, error };
   }
@@ -116,7 +114,7 @@ const deleteAWebinarFromDB = async (slug: string) => {
 
     await webinar.deleteOne();
 
-    return { error: null };
+    return {};
   } catch (error) {
     return { error };
   }
