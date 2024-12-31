@@ -84,6 +84,7 @@ const routes = {
       return url;
     },
     webinarBySlug: (webinar: string) => `/webinar/${webinar}`,
+    certificate: '/certificate',
   },
 };
 

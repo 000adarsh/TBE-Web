@@ -33,8 +33,13 @@ const CoursePage = ({
       ?.isCompleted
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [isCourseCompleted, setIsCourseCompleted] = useState(
+    course.isCompleted ?? false
+  );
+  const [certificateId, setCertificateId] = useState(course.certificateId);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery(SCREEN_BREAKPOINTS.SM);
+  // console.log('HERE', isCourseCompleted);
 
   // Calculate the total chapters and completed chapters
   const totalChapters = chapters.length;
@@ -49,13 +54,23 @@ const CoursePage = ({
     setIsChapterCompleted(currentChapter?.isCompleted);
   }, [currentChapterId, chapters]);
 
-  const { makeRequest } = useApi(`shiksha/${course}`);
+  const { makeRequest, response } = useApi(`shiksha/${course}`);
   const { user } = useUser();
 
   if (!course) return null;
 
   const handleChapterClick = (chapterMeta: string) => {
     setCourseMeta(chapterMeta);
+  };
+
+  const certificateDataPoints = {
+    username: user?.name || 'Anonymous',
+    courseName: course.name || 'Course Name',
+    date: new Date().toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }),
   };
 
   const toggleCompletion = async () => {
@@ -87,19 +102,32 @@ const CoursePage = ({
           (chapter) => chapter._id.toString() === currentChapterId
         );
 
-        let nextIncompleteChapter = chapters
+        const nextIncompleteChapter = chapters
           .slice(currentIndex + 1)
           .find((chapter) => !chapter.isCompleted);
-
-        if (!nextIncompleteChapter) {
-          nextIncompleteChapter = chapters
-            .slice(0, currentIndex)
-            .find((chapter) => !chapter.isCompleted);
-        }
 
         if (nextIncompleteChapter) {
           const nextChapterId = nextIncompleteChapter._id.toString();
           window.location.href = `${slug}?courseId=${course._id}&chapterId=${nextChapterId}`;
+        } else {
+          // Generate Certificate
+          const { status, data } = await makeRequest({
+            method: 'POST',
+            url: routes.api.certificate,
+            body: {
+              type: 'SHIKSHA',
+              userId: user?.id,
+              userName: user?.name,
+              programId: course._id,
+              programName: course.name,
+              date: certificateDataPoints.date,
+            },
+          });
+
+          if (status) {
+            setIsCourseCompleted(true);
+            setCertificateId(data._id);
+          }
         }
       }
 
@@ -118,16 +146,6 @@ const CoursePage = ({
       className='my-2'
     />
   );
-
-  const certificateDataPoints = {
-    username: user?.name || 'Anonymous',
-    courseName: course.name || 'Course Name',
-    date: new Date().toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    }),
-  };
 
   return (
     <React.Fragment>
@@ -184,24 +202,22 @@ const CoursePage = ({
             <div className='w-full sticky bottom-0 bg-inherit py-2'>
               <CertificateBanner
                 backgroundColor={
-                  completedChapters < totalChapters
-                    ? 'bg-purple-400'
-                    : 'bg-purple-600'
+                  isCourseCompleted ? 'bg-purple-600' : 'bg-purple-400'
                 }
                 heading={
-                  completedChapters < totalChapters
+                  isCourseCompleted
                     ? 'Download Certificate'
-                    : 'Congratulations! Certificate Unlocked'
+                    : 'Certificate Locked'
                 }
                 subtext={
-                  completedChapters < totalChapters
-                    ? 'Complete All to Get Your Certificate.'
-                    : 'Click below to download your certificate.'
+                  isCourseCompleted
+                    ? 'Click below to download your certificate.'
+                    : 'Complete All to Get Your Certificate.'
                 }
-                icon={completedChapters < totalChapters ? FaLock : FaTrophy}
-                isLocked={completedChapters < totalChapters}
+                icon={isCourseCompleted ? FaLock : FaTrophy}
+                isLocked={!isCourseCompleted}
                 onClick={() => {
-                  if (completedChapters === totalChapters) {
+                  if (isCourseCompleted) {
                     setIsModalOpen(true);
                   }
                 }}

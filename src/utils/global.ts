@@ -126,7 +126,7 @@ const getCoursePageProps = async (context: any) => {
         routes.api.courseByIdWithUser(courseId, user?.id)
       );
 
-      // If the project data is not found, return the message
+      // If the course data is not found, return the message
       if (!status) {
         return {
           redirect: {
@@ -137,6 +137,7 @@ const getCoursePageProps = async (context: any) => {
       }
 
       const course: BaseShikshaCourseResponseProps = data;
+
       let { meta } = course;
       let currentChapterId = '';
 
