@@ -75,6 +75,9 @@ const WebinarSchema = new Schema<WebinarModel>(
       type: [String],
       required: [true, 'What you will learn is required'],
     },
+    recordedVideoUrl: {
+      type: String,
+    },
   },
   {
     timestamps: true,

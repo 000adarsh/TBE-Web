@@ -206,8 +206,8 @@ const WebinarPage = ({
               <Image
                 alt={host.name}
                 src={host.imageUrl}
-                fullHeight={true}
-                fullWidth={true}
+                fullHeight={false}
+                fullWidth={false}
                 className='rounded-full w-16 h-16 bg-contain border border-dark'
               />
               <FlexContainer
@@ -372,6 +372,8 @@ const WebinarPage = ({
                     <Image
                       src={host.imageUrl}
                       alt={host.name}
+                      fullHeight={false}
+                      fullWidth={false}
                       className='rounded-full w-16 h-16 bg-contain border border-dark'
                     />
 

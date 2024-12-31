@@ -266,12 +266,9 @@ export interface GetAllQuestionsRequestProps {
   userId: string;
 }
 
-export interface UpdateEnrolledUsersRequestPayloadProps {
-  slug: string;
-  users: Array<{
-    name: string;
-    email: string;
-  }>;
+export interface UpdateEnrolledUsersRequestPayloadProps
+  extends Partial<AddWebinarRequestPayloadProps> {
+  users: WebinarEnrolledUsersProps[];
 }
 
 export interface AddWebinarRequestPayloadProps {
