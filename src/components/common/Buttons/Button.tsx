@@ -35,7 +35,7 @@ const Button = ({
 
   return (
     <button
-      className={`${baseClasses} ${className} flex items-center justify-center gap-2`}
+      className={`${baseClasses} ${className} shadow-md flex items-center justify-center gap-2`}
       disabled={!active || isLoading}
       onClick={onClick}
     >

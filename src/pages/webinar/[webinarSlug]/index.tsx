@@ -13,6 +13,7 @@ import {
   BackgroundImage,
   Pill,
   AboutTBE,
+  Button,
 } from '@/components';
 import { WebinarPageProps } from '@/interfaces';
 import { getWebinarPageProps } from '@/utils';
@@ -123,7 +124,7 @@ const WebinarPage = ({
     );
   }
 
-  if (!isAuth) {
+  if (!isAuth && isWebinarStarted) {
     certificateSection = <WebinarHeroContainer />;
   } else if (!isWebinarStarted) {
     certificateSection = <></>;
@@ -131,52 +132,86 @@ const WebinarPage = ({
     certificateSection = (
       <FlexContainer
         direction='col'
-        className='w-full max-w-screen-lg bg-gradient-to-b from-white to-pink-500 p-2 py-4 m-auto mt-2 rounded-1 gap-2'
+        className='w-full max-w-screen-lg gradient-8 py-4 m-auto my-4 rounded-2 gap-6'
       >
-        <Text level='h1' textCenter className='text-2xl font-semibold mb-4'>
+        <Text level='h1' textCenter className='heading-5'>
           Generate Your Certificate
         </Text>
 
-        <FlexContainer fullWidth={true} className='gap-2'>
-          <FlexContainer
-            direction='col'
-            className='w-full md:w-[45%] max-w-[400px]'
-            itemCenter={false}
-          >
-            <Text level='label' className='pre-name text-white font-semibold'>
-              Your Name
-            </Text>
-            <Text level='p' className='w-full font-semibold'>
-              {userName}
-            </Text>
+        <FlexContainer fullWidth={true} direction='col' className='gap-4'>
+          <FlexContainer className='gap-4' itemCenter={false}>
+            <FlexContainer className='gap-4' itemCenter={false}>
+              <FlexContainer direction='col' className='' itemCenter={false}>
+                <Text level='label' className='pre-title'>
+                  Your Name
+                </Text>
+                <Text level='p' className='w-full strong-text'>
+                  {userName}
+                </Text>
+              </FlexContainer>
+              <FlexContainer direction='col' className='' itemCenter={false}>
+                <Text level='label' className='pre-title'>
+                  Your Email
+                </Text>
+                <Text level='p' className='w-full strong-text'>
+                  {userEmail}
+                </Text>
+              </FlexContainer>
+            </FlexContainer>
+            <Button
+              text='Generate Certificate'
+              onClick={onGenerateCertificate}
+              variant='SUCCESS'
+            />
           </FlexContainer>
-          <FlexContainer
-            direction='col'
-            className='w-full md:w-[45%] max-w-[400px]'
-            itemCenter={false}
-          >
-            <Text level='label' className='pre-name text-white font-semibold'>
-              Your Email
-            </Text>
-            <Text level='p' className='w-full font-semibold'>
-              {userEmail}
-            </Text>
-          </FlexContainer>
+
+          {registrationErrorMessage && (
+            <Text level='p'>{registrationErrorMessage}</Text>
+          )}
         </FlexContainer>
 
-        <button
-          onClick={onGenerateCertificate}
-          className='rounded bg-pink-500 py-1 px-2 mt-2 text-white hover:bg-pink-600 focus:outline-none'
-        >
-          Generate Certificate
-        </button>
-        {registrationErrorMessage && (
-          <Text level='p'>{registrationErrorMessage}</Text>
-        )}
         {generateCertificateCard}
       </FlexContainer>
     );
   }
+
+  const registerationContainer = !isWebinarStarted && (
+    <FlexContainer
+      direction='col'
+      fullWidth={true}
+      justifyCenter={true}
+      className='p-3 gradient-1 rounded-2 md:w-1/2 w-full m-auto my-4'
+    >
+      <FlexContainer
+        direction='col'
+        className='justify-start items-center gap-2'
+      >
+        <FlexContainer
+          direction='col'
+          className='justify-start items-center gap-2'
+          fullWidth={true}
+        >
+          <Text level='p' className='heading-5'>
+            Register Now
+          </Text>
+          <LinkButton
+            href={registrationUrl}
+            target='_blank'
+            className='w-full'
+            buttonProps={{
+              variant: 'PRIMARY',
+              text: 'Register Now',
+              className: 'w-full',
+            }}
+          />
+        </FlexContainer>
+
+        <Text level='p' className='pre-title'>
+          25 Slots only. Few seats left.
+        </Text>
+      </FlexContainer>
+    </FlexContainer>
+  );
 
   return (
     <React.Fragment>
@@ -250,42 +285,7 @@ const WebinarPage = ({
           </FlexContainer>
         </FlexContainer>
 
-        <FlexContainer
-          direction='col'
-          fullWidth={true}
-          justifyCenter={true}
-          className='p-3 gradient-1 rounded-2 md:w-1/2 w-full m-auto my-4'
-        >
-          <FlexContainer
-            direction='col'
-            className='justify-start items-center gap-2'
-          >
-            <FlexContainer
-              direction='col'
-              className='justify-start items-center gap-2'
-              fullWidth={true}
-            >
-              <Text level='p' className='heading-5'>
-                Register Now
-              </Text>
-              <LinkButton
-                href={registrationUrl}
-                target='_blank'
-                className='w-full'
-                buttonProps={{
-                  variant: 'PRIMARY',
-                  text: 'Register Now',
-                  className: 'w-full',
-                }}
-              />
-            </FlexContainer>
-
-            <Text level='p' className='pre-title'>
-              25 Slots only. Few seats left.
-            </Text>
-          </FlexContainer>
-        </FlexContainer>
-
+        {registerationContainer}
         {certificateSection}
 
         <FlexContainer direction='col' className='m-auto'>
