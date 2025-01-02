@@ -81,7 +81,7 @@ const getSEOMeta = (basePath: any): GetSEOMetaResponseType => {
       description: `${products.shiksha.description} - Access a variety of online courses and enhance your tech skills.`,
       url: products.shiksha.slug,
       keywords:
-        'Shiksha, Courses, Online Learning, Free Courses, Tech Education, Programming Courses, The Boring Education, College Students, Working Professionals, Career Development, Skill Enhancement, GitHub, Instagram, Twitter, LinkedIn',
+        'Shiksha, online tech courses, programming tutorials for beginners, free tech education, career development for professionals, skill enhancement programs, coding bootcamps, tech webinars, online learning for college students, GitHub projects, tech career growth, free certifications, free courses',
       ...seoCommonMeta,
     },
     [`${routes.interviewPrep}`]: {
