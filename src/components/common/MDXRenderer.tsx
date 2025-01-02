@@ -40,7 +40,12 @@ const MDXRenderer = ({ mdxSource, actions }: MDXRendererProps) => {
       if (href.includes('list=')) {
         return `<a href=${href} target="_blank" class="text-primary underline strong-text">`;
       } else {
-        return `<iframe width="100%" height="315" class="rounded" src="${href}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        let embedHref = href;
+        if (href.includes('watch')) {
+          const videoId = href.split('v=')[1].split('&')[0];
+          embedHref = `https://www.youtube.com/embed/${videoId}`;
+        }
+        return `<iframe width="100%" height="315" class="rounded" src="${embedHref}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
       }
     }
 
