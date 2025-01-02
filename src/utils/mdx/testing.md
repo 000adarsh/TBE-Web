@@ -1,43 +1,31 @@
-<aside>
-📌
+### Why Do We Need CSS?
 
-**When I started learning HTML in 2017, First thing I did was learning Github because it’s used to store our code like Instagram is for Photos. Most courses don’t teach you this but We thought You need to learn Github first. So here go -**
-
-</aside>
-
-### Why Do You Need GitHub?
-
-GitHub is essential for developers to manage code, track changes, and collaborate with others. It’s the platform where you’ll store all your projects and showcase them to potential employers or clients.
+CSS (Cascading Style Sheets) makes your websites visually appealing. It allows you to style text, add colors, and create layouts. CSS is also critical for making websites responsive.
 
 ### How Important Is It?
 
-Every developer, irrespective of their role, needs to know Git and GitHub. It’s a non-negotiable skill for teamwork and contributing to open-source projects.
+CSS defines how your website looks and feels. A poorly styled website can ruin the user experience.
 
 ### How Long Will It Take to Learn?
 
-You can learn the basics of GitHub in **3-5 days**, with **daily practice sessions** on version control commands like `git add`, `git commit`, `git push`, and handling branches.
+Mastering CSS basics takes **5-7 days**, but learning advanced concepts like Flexbox, Grid, and animations may require an additional 1 **weeks**.
+
+_Learn 3-4 Hours/Day._
 
 ## Tutorial
-
-**Learn Github Basics from here.**
-
-[https://www.youtube.com/embed/QhqVRuRBA9w](https://www.youtube.com/embed/QhqVRuRBA9w)
-
-**This video is to clear your confusion on Git and Github.**
-
-[https://www.youtube.com/embed/JXM3ea-MbYc](https://www.youtube.com/embed/JXM3ea-MbYc)
-
-**This is the ONLY Video You need for Git. Learn to Install and Push Your Code.**
-
-[https://www.youtube.com/embed/uwyP5SNlQAU](https://www.youtube.com/embed/uwyP5SNlQAU)
 
 <aside>
 📌
 
-During Your Learning Journey, You’ll be working alone so don’t worry if You couldn’t understand Concepts of Pull Requests and Branching. Learn to Push your code is the Minimum skill You should know.
+Some Tutorials will be in English and as a Non-English speaker you might find it weird but Some Best Teachers I’ve seen only speak English plus in a Job You’ll work on English mainly so don’t be afraid and go ahead when learning.
 
 </aside>
 
-### Projects to Build
+[https://www.youtu.be/embed/wRNinF7YQqQ](https://www.youtu.be/embed/wRNinF7YQqQ)
 
-1. Create a GitHub repository for your projects. Create a Test Repo on Github.
+<aside>
+📌
+
+Many students ask this that I can’t remember CSS Properties names. It’s okay even I can’t remember all. Remember only Color and Font Size Property and Do Google for everything. At a point you’ll remember most properties.
+
+</aside>
