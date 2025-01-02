@@ -45,7 +45,7 @@ const MDXRenderer = ({ mdxSource, actions }: MDXRendererProps) => {
           const videoId = href.split('v=')[1].split('&')[0];
           embedHref = `https://www.youtube.com/embed/${videoId}`;
         }
-        return `<iframe width="100%" height="315" class="rounded" src="${embedHref}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+        return `<iframe width="100%" height="550" class="rounded" src="${embedHref}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
       }
     }
 
