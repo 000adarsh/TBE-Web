@@ -2,7 +2,7 @@ import {
   BaseShikshaCourseResponseProps,
   BaseInterviewSheetResponseProps,
 } from '.';
-import { ProjectDocumentModel } from './database';
+import { ProjectDocumentModel, WebinarModel } from './database';
 import { GetSEOMetaResponseType } from './global';
 
 export interface PageProps {
@@ -40,4 +40,12 @@ export interface SheetPageProps extends PageProps {
   sheet: BaseInterviewSheetResponseProps;
   meta: string;
   currentQuestionId: string;
+}
+
+export interface WebinarCardProps extends WebinarModel {
+  isCompleted: boolean;
+}
+
+export interface WebinarsLandingPageProps extends PageProps {
+  webinars: WebinarCardProps[];
 }

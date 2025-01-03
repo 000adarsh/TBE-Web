@@ -1,4 +1,7 @@
 import dynamic from 'next/dynamic';
+const WebibarCard = dynamic(
+  () => import('@/components/containers/Cards/WebibarCard')
+);
 const Modal = dynamic(() => import('@/components/common/Modal'));
 const Banner = dynamic(() => import('@/components/common/Banner'));
 const AboutTBE = dynamic(
@@ -206,4 +209,5 @@ export {
   AboutTBE,
   Banner,
   Modal,
+  WebibarCard,
 };

@@ -8,6 +8,12 @@ import {
   User,
 } from '@/interfaces';
 
+const fetchAPIData = async (url: string) => {
+  const response = await fetch(`${envConfig.BASE_API_URL}/${url}`);
+
+  return await response.json();
+};
+
 const formatDate = ({
   dateAndTime = new Date().toDateString(),
   dateFormat = {
@@ -265,4 +271,5 @@ export {
   mapInterviewSheetResponseToCard,
   isProgramActive,
   generatePublicCertificateLink,
+  fetchAPIData,
 };

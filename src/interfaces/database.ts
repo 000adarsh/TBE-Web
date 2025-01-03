@@ -147,6 +147,7 @@ export interface WebinarModel {
   whatYoullLearn: string[];
   enrolledUsersList: WebinarEnrolledUsersProps[];
   recordedVideoUrl: string;
+  coverImageURL: string;
   toObject: () => WebinarModel;
 }
 

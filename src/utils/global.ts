@@ -1,4 +1,4 @@
-import { envConfig, getSEOMeta, routes, seoCommonMeta } from '@/constant';
+import { getSEOMeta, routes, seoCommonMeta } from '@/constant';
 import {
   BaseShikshaCourseResponseProps,
   BaseInterviewSheetResponseProps,
@@ -11,6 +11,7 @@ import {
   isUserAuthenticated,
   formatDate,
   isProgramActive,
+  fetchAPIData,
 } from '.';
 
 const getPreFetchProps = async ({ resolvedUrl }: any) => {
@@ -243,10 +244,31 @@ const getSheetPageProps = async (context: any) => {
   };
 };
 
-const fetchAPIData = async (url: string) => {
-  const response = await fetch(`${envConfig.BASE_API_URL}/${url}`);
+const getWebinarLandingPageProps = async ({ resolvedUrl }: any) => {
+  let slug = routes.home;
 
-  return await response.json();
+  if (resolvedUrl) {
+    slug = resolvedUrl;
+  }
+
+  const seoMeta = getSEOMeta(slug);
+
+  const { status, data: webinars } = await fetchAPIData(routes.api.webinar);
+
+  if (!status) {
+    return {
+      redirect: {
+        destination: routes.home,
+      },
+    };
+  }
+
+  return {
+    props: {
+      seoMeta,
+      webinars,
+    },
+  };
 };
 
 const getWebinarPageProps = async (context: any) => {
@@ -324,4 +346,5 @@ export {
   getCoursePageProps,
   getSheetPageProps,
   getWebinarPageProps,
+  getWebinarLandingPageProps,
 };

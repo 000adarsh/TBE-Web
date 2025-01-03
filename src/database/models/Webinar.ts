@@ -78,6 +78,10 @@ const WebinarSchema = new Schema<WebinarModel>(
     recordedVideoUrl: {
       type: String,
     },
+    coverImageURL: {
+      type: String,
+      required: [true, 'Cover image URL is required'],
+    },
   },
   {
     timestamps: true,
