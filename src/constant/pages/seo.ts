@@ -240,6 +240,17 @@ const getSEOMeta = (basePath: any): GetSEOMetaResponseType => {
         'My Sheets, Interview Preparation, The Boring Education, Personal Sheets, Job Preparation, The Boring Education, College Students, Working Professionals, Career Development, Skill Enhancement, GitHub, Instagram, Twitter, LinkedIn',
       ...seoCommonMeta,
     },
+    // Implement Webinar Route
+    [`${routes.webinar}`]: {
+      title: 'Webinars | The Boring Education',
+      siteName: 'Webinars at The Boring Education',
+      description:
+        'Join our live workshops and learn trending tech skills with The Boring Education.',
+      url: routes.webinar,
+      keywords:
+        'Webinars, Live Workshops, The Boring Education, Online Learning, Programming, The Boring Education, College Students, Working Professionals, Career Development, Skill Enhancement, GitHub, Instagram, Twitter, LinkedIn',
+      ...seoCommonMeta,
+    },
   };
 
   return meta[basePath];

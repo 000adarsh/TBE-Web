@@ -41,6 +41,7 @@ const routes = {
     landing: {
       products: 'products',
       portfolio: 'portfolio',
+      webinar: 'webinar',
     },
   },
   404: '/404',
