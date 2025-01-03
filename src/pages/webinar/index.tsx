@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   LandingPageHero,
-  CardContainerA,
   SEO,
   LinkButton,
   Section,
@@ -12,7 +11,7 @@ import {
 } from '@/components';
 import { PageProps } from '@/interfaces';
 import { getPreFetchProps } from '@/utils';
-import { STATIC_FILE_PATH, TBP_FEATURES, routes } from '@/constant';
+import { STATIC_FILE_PATH, routes } from '@/constant';
 
 const Home = ({ seoMeta }: PageProps) => {
   return (
