@@ -6,10 +6,9 @@ import {
   Section,
   Text,
   FlexContainer,
-  Image,
   WebibarCard,
 } from '@/components';
-import { WebinarCardProps, WebinarsLandingPageProps } from '@/interfaces';
+import { WebinarsLandingPageProps } from '@/interfaces';
 import { getWebinarLandingPageProps } from '@/utils';
 import { STATIC_FILE_PATH, routes } from '@/constant';
 

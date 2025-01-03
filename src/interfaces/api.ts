@@ -5,7 +5,6 @@ import {
   InterviewSheetModel,
   InterviewSheetQuestionModel,
   ProjectChapter,
-  WebinarModel,
 } from '.';
 
 export type APIMethodTypes = 'GET' | 'POST' | 'PATCH';
