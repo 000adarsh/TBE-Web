@@ -3,6 +3,7 @@ import {
   AddWebinarRequestPayloadProps,
   UpdateEnrolledUsersRequestPayloadProps,
 } from '@/interfaces';
+import { isProgramActive } from '@/utils';
 
 // Add A Webinar
 const addAWebinarToDB = async (
@@ -20,7 +21,16 @@ const addAWebinarToDB = async (
 const getAllWebinarsFromDB = async () => {
   try {
     const webinars = await Webinar.find();
-    return { data: webinars };
+    if (!webinars) {
+      return { error: 'No webinars found' };
+    }
+
+    const updatedWebinars = webinars.map((webinar) => {
+      const isCompleted = isProgramActive(webinar.dateAndTime);
+      return { ...webinar.toObject(), isCompleted };
+    });
+
+    return { data: updatedWebinars };
   } catch (error) {
     return { error };
   }
