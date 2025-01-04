@@ -20,7 +20,7 @@ export type ProductLabelType =
   | 'Projects'
   | 'Shiksha'
   | 'Interview Prep'
-  | 'Workshops'
+  | 'Webinar'
   | 'Open Source'
   | 'Interview Prep'
   | 'Portfolio';

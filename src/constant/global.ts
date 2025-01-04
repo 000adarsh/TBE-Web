@@ -37,10 +37,10 @@ const products: ProductDataProps = {
     slug: routes.interviewPrep,
     description: 'Prepare for Tech Interviews with Real Questions',
   },
-  workshops: {
-    label: 'Workshops',
-    slug: 'https://www.youtube.com/playlist?list=PLOPyGCrLiI_5JPAbIsv1T129b5LqdurTc',
-    description: 'Learn Skills with Hands-on Workshops',
+  webinar: {
+    label: 'Webinar',
+    slug: routes.webinar,
+    description: 'Attend Free Webinars on Latest Technologies',
   },
   os: {
     label: 'Open Source',

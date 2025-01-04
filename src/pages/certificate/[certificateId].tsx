@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Banner,
   Button,
   CertificateContent,
   FlexContainer,
@@ -14,6 +15,7 @@ import {
   getCertificatePageProps,
 } from '@/utils';
 import { useCertificate, useUser } from '@/hooks';
+import { routes, STATIC_FILE_PATH } from '@/constant';
 
 const Home = ({
   seoMeta,
@@ -80,6 +82,16 @@ const Home = ({
                 </FlexContainer>
               </FlexContainer>
             </FlexContainer>
+          )}
+          {!isAuth && (
+            <Banner
+              title='Start Your Tech Journey'
+              description='Learn the latest technologies and build real-world projects with the help of industry experts.'
+              buttonText='Start Learning'
+              buttonLink={routes.home}
+              imageSrc={`${STATIC_FILE_PATH.svg}/community.svg`}
+              variant='VARIANT_B'
+            />
           )}
         </div>
       </Section>

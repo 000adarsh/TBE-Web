@@ -4,7 +4,6 @@ import {
   Section,
   Text,
   Image,
-  CertificateContent,
   WebinarHeroContainer,
   LinkButton,
   SEO,
@@ -19,12 +18,8 @@ import {
   AddCertificateRequestPayloadProps,
   WebinarPageProps,
 } from '@/interfaces';
-import {
-  formatDate,
-  generatePublicCertificateLink,
-  getWebinarPageProps,
-} from '@/utils';
-import { useApi, useUser, useCertificate } from '@/hooks';
+import { formatDate, getWebinarPageProps } from '@/utils';
+import { useApi, useUser } from '@/hooks';
 import { routes, TESTIMONIALS } from '@/constant';
 import { FiCalendar } from 'react-icons/fi';
 import { LuClock3 } from 'react-icons/lu';
@@ -50,14 +45,11 @@ const WebinarPage = ({
 }: WebinarPageProps) => {
   const { user, isAuth } = useUser();
   const router = useRouter();
-  const { certificateRef, handleDownload } = useCertificate();
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [showCertificate, setShowCertificate] = useState(false);
   const [registrationErrorMessage, setRegistrationErrorMessage] = useState<
     null | string
   >();
-  const [certificateId, setCertificateId] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -86,9 +78,6 @@ const WebinarPage = ({
       }
 
       if (isRegistered) {
-        setShowCertificate(true);
-
-        // Generate Certificate
         const { status, data } = await makeRequest({
           method: 'POST',
           url: routes.api.certificate,
@@ -109,10 +98,9 @@ const WebinarPage = ({
         });
 
         if (status) {
-          setCertificateId(data._id);
+          router.push(`/certificate/${data._id}`);
         }
       } else {
-        setShowCertificate(false);
         setRegistrationErrorMessage(message);
       }
     } catch (error) {
@@ -121,57 +109,6 @@ const WebinarPage = ({
   };
 
   let certificateContainer, generateCertificateCard, recordingVideoContainer;
-
-  if (!isWebinarStarted) {
-    certificateContainer = <></>;
-  }
-
-  if (showCertificate) {
-    generateCertificateCard = (
-      <FlexContainer
-        fullWidth={true}
-        className={`max-w-lg gap-2 ${isWebinarStarted && 'opacity-80'}`}
-      >
-        <div
-          ref={certificateRef}
-          className='w-full rounded border-2 border-gray-500'
-        >
-          <CertificateContent
-            type='WEBINAR'
-            userName={userName}
-            courseName={name}
-            date={
-              formatDate({
-                dateFormat: {
-                  day: 'numeric',
-                  month: 'short',
-                  year: 'numeric',
-                },
-              }).date
-            }
-          />
-        </div>
-        <FlexContainer fullWidth={true} className='gap-1 md:px-0 px-2'>
-          <LinkButton
-            target='_blank'
-            className='md:w-fit w-full'
-            href={generatePublicCertificateLink(router.basePath, certificateId)}
-            buttonProps={{
-              variant: 'PRIMARY',
-              text: 'Share Certificate',
-              className: 'md:w-fit w-full',
-            }}
-          />
-          <Button
-            variant='OUTLINE'
-            text='Download Certificate'
-            onClick={() => handleDownload('webinar')}
-            className='md:w-fit w-full'
-          />
-        </FlexContainer>
-      </FlexContainer>
-    );
-  }
 
   if (recordedVideoUrl) {
     recordingVideoContainer = (

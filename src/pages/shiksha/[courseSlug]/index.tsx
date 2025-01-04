@@ -101,7 +101,6 @@ const CoursePage = ({
           const nextChapterId = nextIncompleteChapter._id.toString();
           window.location.href = `${slug}?courseId=${course._id}&chapterId=${nextChapterId}`;
         } else {
-          // Generate Certificate
           const { status, data } = await makeRequest({
             method: 'POST',
             url: routes.api.certificate,
@@ -195,7 +194,6 @@ const CoursePage = ({
                 );
               })}
             </FlexContainer>
-            {/* Certificate Banner */}
             <div className='w-full sticky bottom-0 bg-inherit py-2'>
               <CertificateBanner
                 backgroundColor={
