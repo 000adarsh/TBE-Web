@@ -1,17 +1,7 @@
 import React from 'react';
-import {
-  LandingPageHero,
-  SEO,
-  LinkButton,
-  Section,
-  Text,
-  FlexContainer,
-  WebibarCard,
-  ToggleButton,
-} from '@/components';
+import { SEO } from '@/components';
 import { WebinarsLandingPageProps } from '@/interfaces';
 import { getCertificatePageProps } from '@/utils';
-import { STATIC_FILE_PATH, routes } from '@/constant';
 
 const Home = ({ seoMeta, webinars }: WebinarsLandingPageProps) => {
   const [filteredWebinars, setFilteredWebinars] = React.useState(webinars);
