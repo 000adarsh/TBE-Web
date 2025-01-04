@@ -117,9 +117,7 @@ const getCoursePageProps = async (context: any) => {
     slug = '/shiksha/' + courseSlug;
   }
 
-  const seoMeta = getSEOMeta(slug);
-
-  if (courseId && seoMeta) {
+  if (courseId) {
     try {
       const user = await isUserAuthenticated(req);
 
@@ -138,6 +136,29 @@ const getCoursePageProps = async (context: any) => {
       }
 
       const course: BaseShikshaCourseResponseProps = data;
+
+      const { name, description, liveOn } = course;
+
+      const isCourseLive = isProgramActive(liveOn as Date);
+
+      // If Course not LIVE, redirect to home
+      if (!isCourseLive) {
+        return {
+          redirect: {
+            destination: routes.home,
+          },
+        };
+      }
+
+      const seoMeta = {
+        title: `${name} | Shiksha | The Boring Education`,
+        siteName: 'Shiksha The Boring Education',
+        description,
+        url: `${routes.shiksha}/${slug}`,
+        keywords:
+          'Shiksha online courses, advanced programming tutorials, free tech education, career development for professionals, skill enhancement programs, coding bootcamps, tech webinars, online learning for college students, GitHub projects, tech career growth, free certifications, free courses',
+        ...seoCommonMeta,
+      };
 
       let { meta } = course;
       let currentChapterId = '';
