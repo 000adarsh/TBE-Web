@@ -7,12 +7,25 @@ import {
   Text,
   FlexContainer,
   WebibarCard,
+  ToggleButton,
 } from '@/components';
 import { WebinarsLandingPageProps } from '@/interfaces';
 import { getWebinarLandingPageProps } from '@/utils';
 import { STATIC_FILE_PATH, routes } from '@/constant';
 
 const Home = ({ seoMeta, webinars }: WebinarsLandingPageProps) => {
+  const [filteredWebinars, setFilteredWebinars] = React.useState(webinars);
+
+  const handleToggle = (activeOption: string) => {
+    if (activeOption === 'Upcoming') {
+      setFilteredWebinars(webinars.filter((webinar) => !webinar.isCompleted));
+    } else if (activeOption === 'Past') {
+      setFilteredWebinars(webinars.filter((webinar) => webinar.isCompleted));
+    } else {
+      setFilteredWebinars(webinars);
+    }
+  };
+
   return (
     <React.Fragment>
       <SEO seoMeta={seoMeta} />
@@ -40,10 +53,22 @@ const Home = ({ seoMeta, webinars }: WebinarsLandingPageProps) => {
           <Text level='h4' className='heading-4' textCenter={true}>
             Our Workshops
           </Text>
+          <ToggleButton
+            options={['All', 'Upcoming', 'Past']}
+            activeColor='gradient-4'
+            inactiveColor='bg-accent'
+            onToggle={handleToggle}
+          />
           <FlexContainer className='gap-2'>
-            {webinars.map((webinar, index) => {
-              return <WebibarCard key={index} {...webinar} />;
-            })}
+            {filteredWebinars.length > 0 ? (
+              filteredWebinars.map((webinar, index) => {
+                return <WebibarCard key={index} {...webinar} />;
+              })
+            ) : (
+              <Text level='span' className='text-center strong-text'>
+                No webinars available.
+              </Text>
+            )}
           </FlexContainer>
         </FlexContainer>
       </Section>

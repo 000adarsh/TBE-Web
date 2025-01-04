@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import ToggleButton from '@/components/common/Buttons/ToggleButton';
 const WebibarCard = dynamic(
   () => import('@/components/containers/Cards/WebibarCard')
 );
@@ -210,4 +211,5 @@ export {
   Banner,
   Modal,
   WebibarCard,
+  ToggleButton,
 };

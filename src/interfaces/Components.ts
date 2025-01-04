@@ -416,3 +416,11 @@ export interface CertificateModalProps {
   courseName: string;
   certificateId: string;
 }
+
+export interface ToggleButtonProps {
+  options: string[];
+  activeColor: string;
+  inactiveColor: string;
+  onToggle: (activeOption: string) => void;
+  textColors?: string[];
+}
