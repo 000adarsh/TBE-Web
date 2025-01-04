@@ -241,7 +241,7 @@ export interface PrimaryCardWithCTAProps {
   ctaText?: string;
   borderColour?: 1 | 2 | 3 | 4 | 5 | 6;
   target?: '_blank';
-  luanchingOn?: string;
+  launchingOn?: string;
 }
 
 export interface LandingPageHeroProps {

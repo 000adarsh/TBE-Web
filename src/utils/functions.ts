@@ -15,7 +15,7 @@ const fetchAPIData = async (url: string) => {
 };
 
 const formatDate = ({
-  dateAndTime = new Date().toDateString(),
+  dateAndTime = new Date().toISOString(),
   dateFormat = {
     day: 'numeric',
     month: 'short',
@@ -25,11 +25,13 @@ const formatDate = ({
     hour: 'numeric',
     minute: 'numeric',
     hour12: true,
+    timeZone: 'UTC',
   },
 }: FormatDateType) => {
+  const date = new Date(dateAndTime);
   return {
-    date: new Date(dateAndTime).toLocaleDateString('en-US', dateFormat),
-    time: new Date(dateAndTime).toLocaleTimeString('en-US', timeFormat),
+    date: date.toLocaleDateString('en-US', dateFormat),
+    time: date.toLocaleTimeString('en-US', timeFormat),
   };
 };
 
@@ -167,7 +169,7 @@ const mapCourseResponseToCard = (
       const isActive = isProgramActive(liveOn);
 
       let ctaText = 'Coming Soon';
-      let luanchingOn = '';
+      let launchingOn = '';
 
       if (isEnrolled) {
         ctaText = 'Continue Learning';
@@ -177,12 +179,10 @@ const mapCourseResponseToCard = (
         ctaText = 'View Course';
       } else {
         const date = new Date(liveOn);
-        luanchingOn = `Launching on ${date.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-          hour: 'numeric',
-        })}`;
+        const dateAndTime = formatDate({
+          dateAndTime: date.toString(),
+        });
+        launchingOn = `Launching on ${dateAndTime.date} at ${dateAndTime.time}`;
       }
 
       return {
@@ -195,7 +195,7 @@ const mapCourseResponseToCard = (
         isEnrolled,
         active: isActive,
         ctaText,
-        luanchingOn,
+        launchingOn,
       };
     }
   );
@@ -217,7 +217,7 @@ const mapInterviewSheetResponseToCard = (
       const isActive = isProgramActive(liveOn);
 
       let ctaText = 'Coming Soon';
-      let luanchingOn = '';
+      let launchingOn = '';
 
       if (isEnrolled) {
         ctaText = 'Continue Learning';
@@ -227,7 +227,7 @@ const mapInterviewSheetResponseToCard = (
         ctaText = 'View Sheet';
       } else {
         const date = new Date(liveOn);
-        luanchingOn = `Launching on ${date.toLocaleDateString('en-US', {
+        launchingOn = `Launching on ${date.toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
@@ -245,7 +245,7 @@ const mapInterviewSheetResponseToCard = (
         isEnrolled,
         active: isActive,
         ctaText,
-        luanchingOn,
+        launchingOn,
       };
     }
   );
