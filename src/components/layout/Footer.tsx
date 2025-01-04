@@ -4,7 +4,7 @@ import { FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className='bg-dark fixed bottom-0 w-full'>
+    <footer className='bg-dark w-full'>
       <FlexContainer
         className='mx-4 justify-between py-1'
         justifyCenter={false}
