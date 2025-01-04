@@ -1,12 +1,13 @@
 import { FlexContainer, Image, LinkButton, Text } from '@/components';
 import { WebinarCardProps } from '@/interfaces';
+import { formatDate } from '@/utils';
 
 const WebibarCard = ({
   name,
   description,
   coverImageURL,
   dateAndTime,
-  registrationUrl,
+  slug,
 }: WebinarCardProps) => {
   return (
     <FlexContainer
@@ -25,17 +26,19 @@ const WebibarCard = ({
             </Text>
           </FlexContainer>
           <Text level='span' className='strong-text text-secondary'>
-            {dateAndTime}
+            {formatDate({ dateAndTime }).date +
+              ', ' +
+              formatDate({ dateAndTime }).time}
           </Text>
         </FlexContainer>
         <LinkButton
           className='w-full'
           buttonProps={{
             variant: 'PRIMARY',
-            text: 'Register Now',
+            text: 'View Webinar',
             className: 'w-full',
           }}
-          href={registrationUrl}
+          href={`/webinar/${slug}`}
         />
       </FlexContainer>
     </FlexContainer>

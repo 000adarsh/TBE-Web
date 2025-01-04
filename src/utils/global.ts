@@ -319,7 +319,7 @@ const getWebinarPageProps = async (context: any) => {
     learnings,
     registrationUrl,
     host,
-    recordedVideoUrl,
+    recordedVideoUrl = '',
   } = webinar;
 
   const { date, time } = formatDate({
