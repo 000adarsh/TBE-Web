@@ -1,6 +1,6 @@
 {
   "name": "tbe-webapp",
-  "version": "0.9.1",
+  "version": "0.9.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -23,7 +23,7 @@
     "html-to-image": "^1.11.11",
     "markdown-it": "^14.1.0",
     "mongoose": "^7.4.1",
-    "next": "^15.1.2",
+    "next": "^13.2.4",
     "next-auth": "^4.24.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
