@@ -22,6 +22,7 @@ export type ProjectPickedPageProps = Pick<
   | 'requiredSkills'
 > & {
   isEnrolled?: boolean;
+  _id: string;
 };
 
 export interface ProjectPageProps extends PageProps {

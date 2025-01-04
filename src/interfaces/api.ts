@@ -247,10 +247,12 @@ export interface BaseShikshaCourseResponseProps extends Partial<CourseModel> {
   chapters?: ExtendedCourseChapterModel[];
   isCompleted?: boolean;
   certificateId?: string;
+  _id: string;
 }
 
 export interface BaseInterviewSheetResponseProps
   extends Partial<InterviewSheetModel> {
+  _id: string;
   isEnrolled?: boolean;
   questions?: ExtendedInterviewSheetQuestionModel[];
 }

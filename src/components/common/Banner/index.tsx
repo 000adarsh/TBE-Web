@@ -8,6 +8,8 @@ const Banner = (props: BannerProps) => {
   } else if (props.variant === 'VARIANT_B') {
     return <BannerVariantB {...props} />;
   }
+
+  return <></>;
 };
 
 export default Banner;
