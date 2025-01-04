@@ -34,6 +34,21 @@ const checkCertificateExistForAProgram = async (
   }
 };
 
+// Get A Certificate by Id
+const getCertificateById = async (certificateId: string) => {
+  try {
+    const certificate = await Certificate.findById(certificateId);
+
+    if (certificate) {
+      return { data: certificate };
+    } else {
+      return { error: 'Certificate not found' };
+    }
+  } catch (error) {
+    return { error: 'Failed while fetching certificate' };
+  }
+};
+
 // Get All User Certificates
 const getUserCertificates = async (userId: string) => {
   try {
@@ -53,4 +68,5 @@ export {
   addACertificateToDB,
   checkCertificateExistForAProgram,
   getUserCertificates,
+  getCertificateById,
 };

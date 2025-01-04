@@ -292,6 +292,39 @@ const getWebinarLandingPageProps = async ({ resolvedUrl }: any) => {
   };
 };
 
+const getCertificatePageProps = async ({ query: { certificateId } }: any) => {
+  const { status, data: certificate } = await fetchAPIData(
+    routes.api.certificateById(certificateId)
+  );
+
+  console.log('Certificate:', certificate);
+
+  const seoMeta = {
+    title: `${certificate.programName} | Certificate | The Boring Education`,
+    siteName: 'The Boring Education',
+    description: 'Certificate',
+    url: `${routes.certificate}/${certificateId}`,
+    keywords:
+      'Certificate, The Boring Education, Tech Education, Online Learning',
+    ...seoCommonMeta,
+  };
+
+  if (!status) {
+    return {
+      redirect: {
+        destination: routes.home,
+      },
+    };
+  }
+
+  return {
+    props: {
+      seoMeta,
+      certificate,
+    },
+  };
+};
+
 const getWebinarPageProps = async (context: any) => {
   const { query } = context;
   const { webinarSlug: slug } = query;
@@ -368,4 +401,5 @@ export {
   getSheetPageProps,
   getWebinarPageProps,
   getWebinarLandingPageProps,
+  getCertificatePageProps,
 };
