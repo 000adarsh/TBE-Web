@@ -1,4 +1,4 @@
-import { envConfig } from '@/constant';
+import { envConfig, LINKS } from '@/constant';
 import {
   BaseInterviewSheetResponseProps,
   BaseShikshaCourseResponseProps,
@@ -254,6 +254,36 @@ const mapInterviewSheetResponseToCard = (
 const generatePublicCertificateLink = (host: string, certificateId: string) =>
   `${host}/certificate/${certificateId}`;
 
+const generateShareTemplate = (
+  programName: string,
+  userName: string,
+  type: 'SHIKSHA' | 'WEBINAR'
+) => {
+  const keyLearnings = '[mention key learnings]';
+  const specificAreas = '[mention specific areas or topics]';
+  const likedAboutProgram = '[mention what you liked about the program]';
+  const howItHelped = '[mention how it has helped you or your career]';
+
+  const baseMessage = `
+    Hello LinkedIn Connections,
+
+    I am thrilled to announce that I have successfully completed the ${programName} in ${type} at The Boring Education!
+
+    During this Program, I have gained invaluable knowledge and skills in ${keyLearnings}. The comprehensive curriculum and hands-on projects have significantly enhanced my understanding of ${specificAreas}.
+
+    I particularly enjoyed ${likedAboutProgram}, which has been instrumental in ${howItHelped}.
+
+    I would like to extend my heartfelt gratitude to Sachin(Tag me - ${LINKS.sachinLinkedIn}) and The Boring Education(Tag us - ${LINKS.officialLinkedIn}) for their unwavering support and guidance throughout this journey.
+
+    Thank you for your support!
+
+    Best regards,
+    ${userName}
+    `;
+
+  return baseMessage;
+};
+
 export {
   formatDate,
   formatTime,
@@ -272,4 +302,5 @@ export {
   isProgramActive,
   generatePublicCertificateLink,
   fetchAPIData,
+  generateShareTemplate,
 };

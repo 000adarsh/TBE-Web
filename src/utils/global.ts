@@ -297,7 +297,13 @@ const getCertificatePageProps = async ({ query: { certificateId } }: any) => {
     routes.api.certificateById(certificateId)
   );
 
-  console.log('Certificate:', certificate);
+  if (!status) {
+    return {
+      redirect: {
+        destination: routes.home,
+      },
+    };
+  }
 
   const seoMeta = {
     title: `${certificate.programName} | Certificate | The Boring Education`,
@@ -308,14 +314,6 @@ const getCertificatePageProps = async ({ query: { certificateId } }: any) => {
       'Certificate, The Boring Education, Tech Education, Online Learning',
     ...seoCommonMeta,
   };
-
-  if (!status) {
-    return {
-      redirect: {
-        destination: routes.home,
-      },
-    };
-  }
 
   return {
     props: {

@@ -12,9 +12,7 @@ const ProgressBar = dynamic(() => import('@/components/common/ProgressBar'));
 const CertificateBanner = dynamic(
   () => import('@/components/common/Certificate/CertificateBanner')
 );
-const ShikshaCertificateModal = dynamic(
-  () => import('@/components/common/Certificate/ShikshaCertificateModal')
-);
+
 const CertificateContent = dynamic(
   () => import('@/components/common/Certificate/CertificateContent')
 );
@@ -203,7 +201,6 @@ export {
   QuestionLink,
   SheetHeroContainer,
   CertificateBanner,
-  ShikshaCertificateModal,
   CertificateContent,
   WebinarHeroContainer,
   BackgroundImage,

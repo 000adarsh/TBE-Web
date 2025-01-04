@@ -2,7 +2,11 @@ import {
   BaseShikshaCourseResponseProps,
   BaseInterviewSheetResponseProps,
 } from '.';
-import { ProjectDocumentModel, WebinarModel } from './database';
+import {
+  CertificateModel,
+  ProjectDocumentModel,
+  WebinarModel,
+} from './database';
 import { GetSEOMetaResponseType } from './global';
 
 export interface PageProps {
@@ -49,4 +53,8 @@ export interface WebinarCardProps extends WebinarModel {
 
 export interface WebinarsLandingPageProps extends PageProps {
   webinars: WebinarCardProps[];
+}
+
+export interface CertificatePageProps extends PageProps {
+  certificate: CertificateModel;
 }

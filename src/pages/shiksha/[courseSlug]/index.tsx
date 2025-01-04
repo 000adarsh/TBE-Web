@@ -12,7 +12,6 @@ import {
   SEO,
   Text,
   CertificateBanner,
-  ShikshaCertificateModal,
 } from '@/components';
 import {
   AddCertificateRequestPayloadProps,
@@ -21,6 +20,7 @@ import {
 import { formatDate, getCoursePageProps } from '@/utils';
 import { useApi, useMediaQuery, useUser } from '@/hooks';
 import { routes, SCREEN_BREAKPOINTS } from '@/constant';
+import router from 'next/router';
 
 const CoursePage = ({
   course,
@@ -40,7 +40,6 @@ const CoursePage = ({
     course.isCompleted ?? false
   );
   const [certificateId, setCertificateId] = useState(course.certificateId);
-  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
   const isSmallScreen = useMediaQuery(SCREEN_BREAKPOINTS.SM);
 
   // Calculate the total chapters and completed chapters
@@ -203,20 +202,18 @@ const CoursePage = ({
                   isCourseCompleted ? 'bg-purple-600' : 'bg-purple-400'
                 }
                 heading={
-                  isCourseCompleted
-                    ? 'Download Certificate'
-                    : 'Certificate Locked'
+                  isCourseCompleted ? 'View Certificate' : 'Certificate Locked'
                 }
                 subtext={
                   isCourseCompleted
                     ? 'Click below to download your certificate.'
                     : 'Complete All to Get Your Certificate.'
                 }
-                icon={isCourseCompleted ? FaLock : FaTrophy}
+                icon={isCourseCompleted ? FaTrophy : FaLock}
                 isLocked={!isCourseCompleted}
                 onClick={() => {
                   if (isCourseCompleted) {
-                    setIsCertificateModalOpen(true);
+                    router.push(`/certificate/${certificateId}`);
                   }
                 }}
               />
@@ -260,12 +257,6 @@ const CoursePage = ({
           </FlexContainer>
         </FlexContainer>
       </Section>
-      <ShikshaCertificateModal
-        isOpen={isCertificateModalOpen}
-        closeModal={() => setIsCertificateModalOpen(false)}
-        courseName={course.name ?? ''}
-        certificateId={certificateId ?? ''}
-      />
     </React.Fragment>
   );
 };
